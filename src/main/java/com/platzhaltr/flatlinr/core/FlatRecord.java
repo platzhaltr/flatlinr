@@ -71,7 +71,7 @@ public class FlatRecord implements Record {
 	 * java.lang.String)
 	 */
 	@Override
-	public void addPartial(final String name, final String value) {
+	public void put(final String name, final String value) {
 		partials.put(name, value);
 	}
 
@@ -81,7 +81,7 @@ public class FlatRecord implements Record {
 	 * @see com.platzhaltr.flatlinr.api.Record#getPartial(java.lang.String)
 	 */
 	@Override
-	public String getPartial(final String name) {
+	public String get(final String name) {
 		return partials.get(name);
 	}
 

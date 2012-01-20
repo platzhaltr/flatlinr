@@ -95,7 +95,7 @@ public class FlatFileReader {
 					indexOf = currentLine.length();
 				}
 				final String value = currentLine.substring(0, indexOf);
-				record.addPartial(leaf.getName(), value);
+				record.put(leaf.getName(), value);
 
 				// we reached the end of the line
 				if (indexOf == currentLine.length()) {

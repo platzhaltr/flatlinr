@@ -108,8 +108,8 @@ public class FlatFileReaderTest {
 		while (flatFileReader.hasNext()) {
 			final Record record = flatFileReader.next();
 			System.out.println(record.getName());
-			if (record.getPartial("culture") != null) {
-				System.out.println(record.getPartial("culture"));
+			if (record.get("culture") != null) {
+				System.out.println(record.get("culture"));
 			}
 			records.add(record);
 		}
