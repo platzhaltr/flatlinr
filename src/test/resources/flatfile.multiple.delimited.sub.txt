@@ -1,0 +1,7 @@
+#groupA
+#groupB
+subA;fooA
+subB;fooB
+subC;fooC
+subD;fooD
+2subsubA
