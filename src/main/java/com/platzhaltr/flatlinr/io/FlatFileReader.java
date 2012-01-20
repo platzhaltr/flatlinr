@@ -21,10 +21,10 @@ import java.io.Reader;
 import java.util.Stack;
 
 import com.platzhaltr.flatlinr.api.Leaf;
+import com.platzhaltr.flatlinr.api.Node;
 import com.platzhaltr.flatlinr.api.Record;
 import com.platzhaltr.flatlinr.core.ConstantLeaf;
 import com.platzhaltr.flatlinr.core.DelimitedLeaf;
-import com.platzhaltr.flatlinr.core.FlatNode;
 import com.platzhaltr.flatlinr.core.FlatRecord;
 
 /**
@@ -38,7 +38,7 @@ public class FlatFileReader {
 	private final BufferedReader reader;
 
 	/** The stack. */
-	private final Stack<FlatNode> stack = new Stack<FlatNode>();
+	private final Stack<Node> stack = new Stack<Node>();
 
 	/** The current line. */
 	private String currentLine;
@@ -54,7 +54,7 @@ public class FlatFileReader {
 	 * @param reader
 	 *            the reader
 	 */
-	public FlatFileReader(final FlatNode flatNode, final Reader reader) {
+	public FlatFileReader(final Node flatNode, final Reader reader) {
 		if (reader instanceof BufferedReader) {
 			this.reader = (BufferedReader) reader;
 		} else {
@@ -72,7 +72,7 @@ public class FlatFileReader {
 	 *             Signals that an I/O exception has occurred.
 	 */
 	public Record next() throws IOException {
-		final FlatNode currentNode = stack.pop();
+		final Node currentNode = stack.pop();
 		if (currentLine == null) {
 			currentLine = (nextLine != null) ? nextLine : reader.readLine();
 		}
@@ -144,8 +144,8 @@ public class FlatFileReader {
 	 *            the next line
 	 * @return the next node
 	 */
-	private FlatNode getNextNode(final Stack<FlatNode> stack,
-			final FlatNode currentNode, final String nextLine) {
+	private Node getNextNode(final Stack<Node> stack, final Node currentNode,
+			final String nextLine) {
 		// bias towards the current node
 		if (!currentNode.getLeafs().isEmpty()) {
 			if (isMatchingLeaf(currentNode.getLeafs().get(0), currentNode
@@ -168,7 +168,7 @@ public class FlatFileReader {
 
 		// then towards the parent(s)
 		while (!stack.isEmpty() && stack.peek() != null) {
-			final FlatNode pop = stack.pop();
+			final Node pop = stack.pop();
 			if (!pop.getLeafs().isEmpty()) {
 				if (isMatchingLeaf(currentNode.getLeafs().get(0), pop
 						.getLeafs().size() == 1, nextLine)) {
