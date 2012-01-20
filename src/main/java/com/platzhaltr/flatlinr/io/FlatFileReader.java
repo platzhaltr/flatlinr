@@ -90,17 +90,21 @@ public class FlatFileReader {
 				final DelimitedLeaf delimitedLeaf = (DelimitedLeaf) leaf;
 				final String delimiter = delimitedLeaf.getDelimiter();
 
+				boolean last = false;
 				int indexOf = currentLine.indexOf(delimiter);
 				if (indexOf == -1) {
 					indexOf = currentLine.length();
+					last = true;
 				}
 				final String value = currentLine.substring(0, indexOf);
 				record.put(leaf.getName(), value);
 
-				// we reached the end of the line
-				if (indexOf == currentLine.length()) {
+				// we reached the end of the line and leave the loop
+				if (last) {
 					break;
 				}
+				currentLine = currentLine.substring(indexOf + 1);
+
 			}
 		}
 		getNextLine();
@@ -146,6 +150,27 @@ public class FlatFileReader {
 	 */
 	private Node getNextNode(final Stack<Node> stack, final Node currentNode,
 			final String nextLine) {
+
+		// bias towards the child if current node has delimited leaf and the
+		// first leaf of the child is constant
+		if (!currentNode.getLeafs().isEmpty()) {
+			final Leaf currentLeaf = currentNode.getLeafs().get(0);
+			if (currentNode.getChild() != null
+					&& !currentNode.getChild().getLeafs().isEmpty()) {
+				final Leaf childLeaf = currentNode.getChild().getLeafs().get(0);
+				if ((currentLeaf instanceof DelimitedLeaf)
+						&& (childLeaf instanceof ConstantLeaf)) {
+					if (isMatchingLeaf(childLeaf, currentNode.getChild()
+							.getLeafs().size() == 1, nextLine)) {
+						// remember ancestor
+						stack.push(currentNode);
+						return currentNode.getChild();
+					}
+				}
+
+			}
+		}
+
 		// bias towards the current node
 		if (!currentNode.getLeafs().isEmpty()) {
 			if (isMatchingLeaf(currentNode.getLeafs().get(0), currentNode
@@ -166,11 +191,11 @@ public class FlatFileReader {
 			}
 		}
 
-		// then towards the parent(s)
+		// then towards the parent
 		while (!stack.isEmpty() && stack.peek() != null) {
 			final Node pop = stack.pop();
 			if (!pop.getLeafs().isEmpty()) {
-				if (isMatchingLeaf(currentNode.getLeafs().get(0), pop
+				if (isMatchingLeaf(pop.getLeafs().get(0), pop
 						.getLeafs().size() == 1, nextLine)) {
 					return pop;
 				}
