@@ -69,12 +69,12 @@ public class FlatFileReaderTest {
 	 */
 	@BeforeClass
 	public static void setUp() throws Exception {
-		root = new FlatNode("group").addLeaf(new ConstantLeaf("#")).addLeaf(
+		root = new FlatNode("group").add(new ConstantLeaf("#")).add(
 				new DelimitedLeaf("name", ";"));
-		final FlatNode sub = new FlatNode("sub").addLeaf(new ConstantLeaf("1"))
-				.addLeaf(new DelimitedLeaf("content", ";"));
-		final FlatNode subSub = new FlatNode("subsub").addLeaf(
-				new ConstantLeaf("2")).addLeaf(
+		final FlatNode sub = new FlatNode("sub").add(new ConstantLeaf("1"))
+				.add(new DelimitedLeaf("content", ";"));
+		final FlatNode subSub = new FlatNode("subsub").add(
+				new ConstantLeaf("2")).add(
 				new DelimitedLeaf("content", ";"));
 		sub.setChild(subSub);
 		root.setChild(sub);
@@ -108,8 +108,8 @@ public class FlatFileReaderTest {
 		while (flatFileReader.hasNext()) {
 			final Record record = flatFileReader.next();
 			System.out.println(record.getName());
-			if (record.getPartial("culture") != null) {
-				System.out.println(record.getPartial("culture"));
+			if (record.get("culture") != null) {
+				System.out.println(record.get("culture"));
 			}
 			records.add(record);
 		}
@@ -179,13 +179,13 @@ public class FlatFileReaderTest {
 	 */
 	@Test
 	public void testDelimitedSub() throws IOException {
-		root = new FlatNode("group").addLeaf(new ConstantLeaf("#")).addLeaf(
+		root = new FlatNode("group").add(new ConstantLeaf("#")).add(
 				new DelimitedLeaf("name", ";"));
-		final FlatNode sub = new FlatNode("sub").addLeaf(
-				new DelimitedLeaf("contentA", ";")).addLeaf(
+		final FlatNode sub = new FlatNode("sub").add(
+				new DelimitedLeaf("contentA", ";")).add(
 				new DelimitedLeaf("contentB", ";"));
-		final FlatNode subSub = new FlatNode("subsub").addLeaf(
-				new ConstantLeaf("2")).addLeaf(
+		final FlatNode subSub = new FlatNode("subsub").add(
+				new ConstantLeaf("2")).add(
 				new DelimitedLeaf("content", ";"));
 		sub.setChild(subSub);
 		root.setChild(sub);

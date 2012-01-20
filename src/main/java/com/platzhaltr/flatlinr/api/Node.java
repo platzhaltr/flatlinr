@@ -2,8 +2,6 @@ package com.platzhaltr.flatlinr.api;
 
 import java.util.List;
 
-import com.platzhaltr.flatlinr.core.FlatNode;
-
 public interface Node {
 
 	/**
@@ -27,7 +25,7 @@ public interface Node {
 	 *            the new child
 	 * @return the node
 	 */
-	public abstract Node setChild(final FlatNode child);
+	public abstract Node setChild(final Node child);
 
 	/**
 	 * Gets the leafs.
@@ -43,6 +41,6 @@ public interface Node {
 	 *            the leaf
 	 * @return the node
 	 */
-	public abstract Node addLeaf(final Leaf leaf);
+	public abstract Node add(final Leaf leaf);
 
 }
