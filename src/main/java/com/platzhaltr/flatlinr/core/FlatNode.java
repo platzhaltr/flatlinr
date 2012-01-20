@@ -29,7 +29,7 @@ import com.platzhaltr.flatlinr.api.Node;
 public class FlatNode implements Node {
 
 	/** The child. */
-	private FlatNode child;
+	private Node child;
 
 	/** The name. */
 	private final String name;
@@ -64,7 +64,7 @@ public class FlatNode implements Node {
 	 * @see com.platzhaltr.flatlinr.api.Node#getChild()
 	 */
 	@Override
-	public FlatNode getChild() {
+	public Node getChild() {
 		return child;
 	}
 
@@ -76,7 +76,7 @@ public class FlatNode implements Node {
 	 * .FlatNode)
 	 */
 	@Override
-	public Node setChild(final FlatNode child) {
+	public Node setChild(final Node child) {
 		this.child = child;
 		return this;
 	}
@@ -99,7 +99,7 @@ public class FlatNode implements Node {
 	 * Leaf)
 	 */
 	@Override
-	public FlatNode addLeaf(final Leaf leaf) {
+	public FlatNode add(final Leaf leaf) {
 		leafs.add(leaf);
 		return this;
 	}
