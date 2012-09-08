@@ -45,7 +45,7 @@ public class DelimitedLeaf implements Leaf {
 	}
 
 	/**
-	 * Instantiates a new delimited leaf.
+	 * Instantiates a new delimited leaf with the given delimiter
 	 *
 	 * @param name
 	 *            the name
@@ -66,7 +66,6 @@ public class DelimitedLeaf implements Leaf {
 	 */
 	public DelimitedLeaf(final String name, final String delimiter) {
 		this.name = name;
-		// TODO Auto-generated constructor stub
 		this.delimiter = delimiter;
 	}
 
