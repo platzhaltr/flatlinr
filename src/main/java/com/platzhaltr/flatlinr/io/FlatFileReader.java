@@ -103,7 +103,7 @@ public class FlatFileReader {
 				if (last) {
 					break;
 				}
-				currentLine = currentLine.substring(indexOf + 1);
+				currentLine = currentLine.substring(indexOf + delimiter.length());
 
 			}
 		}
