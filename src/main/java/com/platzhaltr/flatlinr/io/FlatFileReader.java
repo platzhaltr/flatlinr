@@ -18,8 +18,10 @@ package com.platzhaltr.flatlinr.io;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 import java.util.Stack;
 
+import com.platzhaltr.flatlinr.api.Feature;
 import com.platzhaltr.flatlinr.api.Leaf;
 import com.platzhaltr.flatlinr.api.Node;
 import com.platzhaltr.flatlinr.api.Record;
@@ -29,7 +31,7 @@ import com.platzhaltr.flatlinr.core.FlatRecord;
 
 /**
  * The Class FlatFileReader.
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
 public class FlatFileReader {
@@ -48,7 +50,7 @@ public class FlatFileReader {
 
 	/**
 	 * Instantiates a new flat file reader.
-	 *
+	 * 
 	 * @param flatNode
 	 *            the node
 	 * @param reader
@@ -66,7 +68,7 @@ public class FlatFileReader {
 
 	/**
 	 * Returns the next {@link Record}
-	 *
+	 * 
 	 * @return the record
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
@@ -96,14 +98,15 @@ public class FlatFileReader {
 					indexOf = currentLine.length();
 					last = true;
 				}
-				final String value = currentLine.substring(0, indexOf);
+				final String value = applyFeatures(currentLine.substring(0, indexOf), delimitedLeaf.getFeatures());
 				record.put(leaf.getName(), value);
 
 				// we reached the end of the line and leave the loop
 				if (last) {
 					break;
 				}
-				currentLine = currentLine.substring(indexOf + delimiter.length());
+				currentLine = currentLine.substring(indexOf
+						+ delimiter.length());
 
 			}
 		}
@@ -117,7 +120,7 @@ public class FlatFileReader {
 
 	/**
 	 * Checks if the reader can return another {@link Record} (another line)
-	 *
+	 * 
 	 * @return true, if successful
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
@@ -128,7 +131,7 @@ public class FlatFileReader {
 
 	/**
 	 * Gets the next line.
-	 *
+	 * 
 	 * @return the next line
 	 */
 	private String getNextLine() throws IOException {
@@ -139,7 +142,7 @@ public class FlatFileReader {
 
 	/**
 	 * Gets the next node.
-	 *
+	 * 
 	 * @param stack
 	 *            the stack
 	 * @param currentNode
@@ -195,8 +198,8 @@ public class FlatFileReader {
 		while (!stack.isEmpty() && stack.peek() != null) {
 			final Node pop = stack.pop();
 			if (!pop.getLeafs().isEmpty()) {
-				if (isMatchingLeaf(pop.getLeafs().get(0), pop
-						.getLeafs().size() == 1, nextLine)) {
+				if (isMatchingLeaf(pop.getLeafs().get(0),
+						pop.getLeafs().size() == 1, nextLine)) {
 					return pop;
 				}
 			}
@@ -207,7 +210,7 @@ public class FlatFileReader {
 
 	/**
 	 * Checks if the leaf matches the start of the line
-	 *
+	 * 
 	 * @param leaf
 	 *            the leaf
 	 * @param line
@@ -226,6 +229,15 @@ public class FlatFileReader {
 		}
 
 		throw new IllegalStateException("No matching leaf found");
+	}
+
+	private String applyFeatures(String s, List<Feature> features) {
+
+		for (Feature feature : features) {
+			s = feature.convert(s);
+		}
+
+		return s;
 	}
 
 }

@@ -15,11 +15,15 @@
  */
 package com.platzhaltr.flatlinr.core;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.platzhaltr.flatlinr.api.Feature;
 import com.platzhaltr.flatlinr.api.Leaf;
 
 /**
  * The Class DelimitedLeaf.
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
 public class DelimitedLeaf implements Leaf {
@@ -33,10 +37,13 @@ public class DelimitedLeaf implements Leaf {
 	/** The delimiter. */
 	private final String delimiter;
 
+	/** The features. */
+	private final List<Feature> features;
+
 	/**
 	 * Instantiates a new delimited leaf with the <b>default delimiter</b>
 	 * <code>;</code>
-	 *
+	 * 
 	 * @param name
 	 *            the name
 	 */
@@ -45,8 +52,20 @@ public class DelimitedLeaf implements Leaf {
 	}
 
 	/**
-	 * Instantiates a new delimited leaf with the given delimiter
-	 *
+	 * Instantiates a new delimited leaf.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param features
+	 *            the features
+	 */
+	public DelimitedLeaf(final String name, Feature... features) {
+		this(name, DEFAULT_DELIMITER, features);
+	}
+
+	/**
+	 * Instantiates a new delimited leaf.
+	 * 
 	 * @param name
 	 *            the name
 	 * @param delimiter
@@ -58,20 +77,51 @@ public class DelimitedLeaf implements Leaf {
 
 	/**
 	 * Instantiates a new delimited leaf.
-	 *
+	 * 
+	 * @param name
+	 *            the name
+	 * @param delimiter
+	 *            the delimiter
+	 * @param features
+	 *            the features
+	 */
+	public DelimitedLeaf(final String name, final char delimiter,
+			Feature... features) {
+		this(name, delimiter + "", features);
+	}
+
+	/**
+	 * Instantiates a new delimited leaf.
+	 * 
 	 * @param name
 	 *            the name
 	 * @param delimiter
 	 *            the delimiter
 	 */
 	public DelimitedLeaf(final String name, final String delimiter) {
+		this(name, delimiter, new Feature[] {});
+	}
+
+	/**
+	 * Instantiates a new delimited leaf.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param delimiter
+	 *            the delimiter
+	 * @param features
+	 *            the features
+	 */
+	public DelimitedLeaf(final String name, final String delimiter,
+			Feature... features) {
 		this.name = name;
 		this.delimiter = delimiter;
+		this.features = Arrays.asList(features);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.platzhaltr.flatlinr.api.Leaf#getName()
 	 */
 	@Override
@@ -81,46 +131,52 @@ public class DelimitedLeaf implements Leaf {
 
 	/**
 	 * Gets the delimiter.
-	 *
+	 * 
 	 * @return the delimiter
 	 */
 	public String getDelimiter() {
 		return delimiter;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#hashCode()
+	/**
+	 * Gets the features.
+	 * 
+	 * @return the features
 	 */
+	public List<Feature> getFeatures() {
+		return features;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((delimiter == null) ? 0 : delimiter.hashCode());
+		result = prime * result
+				+ ((features == null) ? 0 : features.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final DelimitedLeaf other = (DelimitedLeaf) obj;
+		DelimitedLeaf other = (DelimitedLeaf) obj;
 		if (delimiter == null) {
 			if (other.delimiter != null)
 				return false;
 		} else if (!delimiter.equals(other.delimiter))
+			return false;
+		if (features == null) {
+			if (other.features != null)
+				return false;
+		} else if (!features.equals(other.features))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -130,14 +186,10 @@ public class DelimitedLeaf implements Leaf {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "DelimitedLeaf [name=" + name + ", delimiter=" + delimiter + "]";
+		return "DelimitedLeaf [name=" + name + ", delimiter=" + delimiter
+				+ ", features=" + features + "]";
 	}
 
 }

@@ -6,23 +6,34 @@ Requires JDK 1.6 or higher.
 
 ## Usage ##
 
-Flatlinr sees the file as a tree. Let's take this simple example file
+Assume the following example file
 
 	#Library
 	- History
-		- Greek
-		- Roman
+		- greek
+		- ROMAN
+
+Flatlinr sees the file as a tree.
 
 	public class UsageExample {
 
 		// First you would define the structure of the file
 		private final Node getRoot() {
-			final Node root = new FlatNode("library").add(new ConstantLeaf("#"))
-					.add(new DelimitedLeaf("name", ";"));
-			final FlatNode room = new FlatNode("shelf").add(new ConstantLeaf("- "))
-					.add(new DelimitedLeaf("room", ";"));
-			final FlatNode shelf = new FlatNode("culture").add(
-					new ConstantLeaf("\t- ")).add(new DelimitedLeaf("shelf", ";"));
+			final Node root = 
+				new FlatNode("library")
+				.add(new ConstantLeaf("#"))
+				.add(new DelimitedLeaf("name", ";"));
+			
+			final FlatNode room = 
+				new FlatNode("shelf")
+				.add(new ConstantLeaf("- "))
+				.add(new DelimitedLeaf("room", ";"));
+			
+			// you can also auto-convert delimited leafs via Features
+			final FlatNode shelf = 
+				new FlatNode("culture")
+				.add(new ConstantLeaf("\t- "))
+				.add(new DelimitedLeaf("shelf", ";", , Features.LOWER_CASE));
 
 			room.setChild(shelf);
 			root.setChild(room);
