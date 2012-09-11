@@ -18,32 +18,39 @@ package com.platzhaltr.flatlinr.util;
 import com.platzhaltr.flatlinr.api.Feature;
 
 /**
- * Default Features.
+ * Replaces each substring of this string that matches the given regular
+ * expression with the given replacement.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
-public class Features {
+public class ReplaceFeature implements Feature {
 
-	/** The trim. */
-	public static Feature TRIM = new TrimFeature();
+	/** The pattern. */
+	private String pattern;
 
-	/** The lower case. */
-	public static Feature LOWER_CASE = new LowerCaseFeature();
-
-	/** The upper case. */
-	public static Feature UPPER_CASE = new UpperCaseFeature();
+	/** The replacement. */
+	private String replacement;
 
 	/**
-	 * Replace.
+	 * Instantiates a new replace feature.
 	 * 
 	 * @param pattern
 	 *            the pattern
 	 * @param replacement
 	 *            the replacement
-	 * @return the feature
 	 */
-	public static Feature REPLACE(String pattern, String replacement) {
-		return new ReplaceFeature(pattern, replacement);
+	public ReplaceFeature(String pattern, String replacement) {
+		this.pattern = pattern;
+		this.replacement = replacement;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.platzhaltr.flatlinr.api.Feature#convert(java.lang.String)
+	 */
+	@Override
+	public String convert(String s) {
+		return s.replaceAll(pattern, replacement);
+	}
 }

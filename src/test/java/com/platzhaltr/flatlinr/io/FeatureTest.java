@@ -1,6 +1,7 @@
 package com.platzhaltr.flatlinr.io;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 	private static final Node CATEGORY = 
 			new FlatNode("category")
 			.add(new ConstantLeaf("1-"))
-			.add(new DelimitedLeaf("name"));
+			.add(new DelimitedLeaf("name", Features.TRIM, Features.REPLACE(" Spells", ""), Features.LOWER_CASE));
 	// @formatter:on
 
 	/** The Constant SKILL. */
@@ -58,6 +59,8 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 				final String categoryName = record.get("name");
 
 				assertTrue(!categoryName.isEmpty());
+				assertEquals("combat", categoryName);
+
 			} else if (record.getName().equals("spell")) {
 				final String name = record.get("name");
 				final String source = record.get("source");
