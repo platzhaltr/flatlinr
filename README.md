@@ -46,13 +46,13 @@ public class UsageExample {
 	}
 
 	public final void read(final File file) throws IOException {
-		final FlatFileReader reader = 
-				new FlatFileReader(
+		final FlatFileIterator iterator = 
+				new FlatFileIterator(
 					getRoot(),
 					new FileReader(file));
 
-		while (reader.hasNext()) {
-			final Record record = reader.next();
+		while (iterator.hasNext()) {
+			final Record record = iterator.next();
 			System.out.println(record.getName());
 			if (record.get("culture") != null) {
 				System.out.println(record.get("culture"));

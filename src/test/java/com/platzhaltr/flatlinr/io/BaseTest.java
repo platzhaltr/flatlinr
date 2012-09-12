@@ -5,11 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import com.platzhaltr.flatlinr.api.Node;
+import com.platzhaltr.flatlinr.core.FlatFileIterator;
 
 public abstract class BaseTest {
 
-	/** The flat file reader. */
-	protected FlatFileReader reader;
+	/** The flat file iterator. */
+	protected FlatFileIterator iterator;
 
 	/**
 	 * Parses the.
@@ -24,7 +25,7 @@ public abstract class BaseTest {
 		final File input = new File(this.getClass().getResource(path).getFile());
 		final FileReader inputReader = new FileReader(input);
 
-		reader = new FlatFileReader(root, inputReader);
+		iterator = new FlatFileIterator(root, inputReader);
 	}
 
 }

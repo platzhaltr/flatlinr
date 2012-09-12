@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.platzhaltr.flatlinr.io;
+package com.platzhaltr.flatlinr.core;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -25,16 +26,13 @@ import com.platzhaltr.flatlinr.api.Feature;
 import com.platzhaltr.flatlinr.api.Leaf;
 import com.platzhaltr.flatlinr.api.Node;
 import com.platzhaltr.flatlinr.api.Record;
-import com.platzhaltr.flatlinr.core.ConstantLeaf;
-import com.platzhaltr.flatlinr.core.DelimitedLeaf;
-import com.platzhaltr.flatlinr.core.FlatRecord;
 
 /**
  * The Class FlatFileReader.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
-public class FlatFileReader {
+public class FlatFileIterator implements Iterator<Record> {
 
 	/** The reader. */
 	private final BufferedReader reader;
@@ -56,7 +54,7 @@ public class FlatFileReader {
 	 * @param reader
 	 *            the reader
 	 */
-	public FlatFileReader(final Node flatNode, final Reader reader) {
+	public FlatFileIterator (final Node flatNode, final Reader reader) {
 		if (reader instanceof BufferedReader) {
 			this.reader = (BufferedReader) reader;
 		} else {
@@ -73,10 +71,14 @@ public class FlatFileReader {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public Record next() throws IOException {
+	public Record next() {
 		final Node currentNode = stack.pop();
 		if (currentLine == null) {
-			currentLine = (nextLine != null) ? nextLine : reader.readLine();
+			try {
+				currentLine = (nextLine != null) ? nextLine : reader.readLine();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 
 		final Record record = new FlatRecord(currentNode.getName());
@@ -110,7 +112,11 @@ public class FlatFileReader {
 
 			}
 		}
-		getNextLine();
+		try {
+			getNextLine();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		if (hasNext()) {
 			stack.push(getNextNode(stack, currentNode, nextLine));
 		}
@@ -125,8 +131,13 @@ public class FlatFileReader {
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	public boolean hasNext() throws IOException {
-		return nextLine != null || reader.ready();
+	@Override
+	public boolean hasNext()  {
+		try {
+			return nextLine != null || reader.ready();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -238,6 +249,11 @@ public class FlatFileReader {
 		}
 
 		return s;
+	}
+
+	@Override
+	public void remove() {
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -8,7 +8,8 @@ import org.junit.Test;
 
 import com.platzhaltr.flatlinr.api.Record;
 
-public class SimpleHierarchyMulticharDelimiterTest extends SimpleHierarchyBaseTest {
+public class SimpleHierarchyMulticharDelimiterTest extends
+		SimpleHierarchyBaseTest {
 
 	/** The Constant PATH */
 	private static final String PATH = "/flatfile.complex.multichar-delimiter.txt";
@@ -16,8 +17,8 @@ public class SimpleHierarchyMulticharDelimiterTest extends SimpleHierarchyBaseTe
 	@Test
 	public void test() throws IOException {
 		parse(PATH, ROOT_NODE);
-		while (reader.hasNext()) {
-			final Record record = reader.next();
+		while (iterator.hasNext()) {
+			final Record record = iterator.next();
 
 			if (record.getName().equals("category")) {
 

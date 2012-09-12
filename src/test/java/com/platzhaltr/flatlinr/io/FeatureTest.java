@@ -51,8 +51,8 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 	@Test
 	public void test() throws IOException {
 		parse(PATH, ROOT_NODE);
-		while (reader.hasNext()) {
-			final Record record = reader.next();
+		while (iterator.hasNext()) {
+			final Record record = iterator.next();
 
 			if (record.getName().equals("category")) {
 
