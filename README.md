@@ -17,49 +17,50 @@ Assume the following example file
 
 Flatlinr sees the file as a tree.
 
-	public class UsageExample {
+```java
+public class UsageExample {
 
-		// define the structure of the file
-		private final Node getRoot() {
-			final Node root = 
-					new FlatNode("library")
-					.add(new ConstantLeaf("#"))
-					.add(new DelimitedLeaf("name", ";"));
-				
-				final FlatNode room = 
-					new FlatNode("shelf")
-					.add(new ConstantLeaf("- "))
-					.add(new DelimitedLeaf("room", ";"));
-				
-				// you can also auto-convert delimited leafs via Features
-				final FlatNode shelf = 
-					new FlatNode("culture")
-					.add(new ConstantLeaf("\t- "))
-					.add(new DelimitedLeaf("shelf", ";",
-						Features.LOWER_CASE));
+	// define the structure of the file
+	private final Node getRoot() {
+		final Node root = 
+				new FlatNode("library")
+				.add(new ConstantLeaf("#"))
+				.add(new DelimitedLeaf("name", ";"));
+			
+			final FlatNode room = 
+				new FlatNode("shelf")
+				.add(new ConstantLeaf("- "))
+				.add(new DelimitedLeaf("room", ";"));
+			
+			// you can also auto-convert delimited leafs via Features
+			final FlatNode shelf = 
+				new FlatNode("culture")
+				.add(new ConstantLeaf("\t- "))
+				.add(new DelimitedLeaf("shelf", ";",
+					Features.LOWER_CASE));
 
-				room.setChild(shelf);
-				root.setChild(room);
+			room.setChild(shelf);
+			root.setChild(room);
 
-				return root;
-		}
+			return root;
+	}
 
-		public final void read(final File file) throws IOException {
-			final FlatFileReader reader = 
-					new FlatFileReader(
-						getRoot(),
-						new FileReader(file));
+	public final void read(final File file) throws IOException {
+		final FlatFileReader reader = 
+				new FlatFileReader(
+					getRoot(),
+					new FileReader(file));
 
-			while (reader.hasNext()) {
-				final Record record = reader.next();
-				System.out.println(record.getName());
-				if (record.get("culture") != null) {
-					System.out.println(record.get("culture"));
-				}
+		while (reader.hasNext()) {
+			final Record record = reader.next();
+			System.out.println(record.getName());
+			if (record.get("culture") != null) {
+				System.out.println(record.get("culture"));
 			}
 		}
 	}
-
+}
+```
 	
 **Flatlinr** will take care of traversing the tree for you. You can react on the changes by using the `record.getName()` method to know where you are in the tree and build your data accordingly. 
 
