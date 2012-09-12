@@ -8,11 +8,10 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.platzhaltr.flatlinr.api.Node;
-import com.platzhaltr.flatlinr.api.Record;
 import com.platzhaltr.flatlinr.core.ConstantLeaf;
 import com.platzhaltr.flatlinr.core.DelimitedLeaf;
-import com.platzhaltr.flatlinr.core.FlatNode;
+import com.platzhaltr.flatlinr.core.Node;
+import com.platzhaltr.flatlinr.core.Record;
 import com.platzhaltr.flatlinr.util.Features;
 
 public class FeatureTest extends SimpleHierarchyBaseTest {
@@ -20,14 +19,14 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 	/** The Constant CATEGORY. */
 	// @formatter:off
 	private static final Node CATEGORY = 
-			new FlatNode("category")
+			new Node("category")
 			.add(new ConstantLeaf("1-"))
 			.add(new DelimitedLeaf("name", Features.TRIM, Features.REPLACE(" Spells", ""), Features.LOWER_CASE));
 	// @formatter:on
 
 	/** The Constant SKILL. */
 	// @formatter:off
-	private static final Node SPELL = new FlatNode("spell")
+	private static final Node SPELL = new Node("spell")
 			.add(new ConstantLeaf("2-* "))
 			.add(new DelimitedLeaf("name", "1|", Features.TRIM))
 			.add(new DelimitedLeaf("source", '|', Features.TRIM))
@@ -42,7 +41,7 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 	// @formatter:on
 
 	/** The Constant ROOT. */
-	protected static final Node ROOT_NODE = ((FlatNode) CATEGORY)
+	protected static final Node ROOT_NODE = ((Node) CATEGORY)
 			.setChild(SPELL);
 
 	/** The Constant PATH */

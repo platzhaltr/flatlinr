@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.platzhaltr.flatlinr.api.Node;
-import com.platzhaltr.flatlinr.api.Record;
 import com.platzhaltr.flatlinr.core.ConstantLeaf;
 import com.platzhaltr.flatlinr.core.DelimitedLeaf;
 import com.platzhaltr.flatlinr.core.FlatFileIterator;
-import com.platzhaltr.flatlinr.core.FlatNode;
+import com.platzhaltr.flatlinr.core.Node;
+import com.platzhaltr.flatlinr.core.Record;
 import com.platzhaltr.flatlinr.util.Features;
 
 public class UsageExample {
@@ -18,18 +17,18 @@ public class UsageExample {
 	private final Node getRoot() {
 		//@formatter:off
 		final Node root = 
-				new FlatNode("library")
+				new Node("library")
 				.add(new ConstantLeaf("#"))
 				.add(new DelimitedLeaf("name", ";"));
 			
-			final FlatNode room = 
-				new FlatNode("shelf")
+			final Node room = 
+				new Node("shelf")
 				.add(new ConstantLeaf("- "))
 				.add(new DelimitedLeaf("room", ";"));
 			
 			// you can also auto-convert delimited leafs via Features
-			final FlatNode shelf = 
-				new FlatNode("culture")
+			final Node shelf = 
+				new Node("culture")
 				.add(new ConstantLeaf("\t- "))
 				.add(new DelimitedLeaf("shelf", ";",
 					Features.LOWER_CASE));

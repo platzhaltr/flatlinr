@@ -9,18 +9,17 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.platzhaltr.flatlinr.api.Node;
-import com.platzhaltr.flatlinr.api.Record;
 import com.platzhaltr.flatlinr.core.ConstantLeaf;
 import com.platzhaltr.flatlinr.core.DelimitedLeaf;
-import com.platzhaltr.flatlinr.core.FlatNode;
+import com.platzhaltr.flatlinr.core.Node;
+import com.platzhaltr.flatlinr.core.Record;
 
 public class DelimitedSubTest extends BaseTest {
 
 	/** The Constant GROUP. */
 	//@formatter:off
 	private static final Node GROUP = 
-			new FlatNode("group")
+			new Node("group")
 			.add(new ConstantLeaf("#"))
 			.add(new DelimitedLeaf("name", ";"));
 	//@formatter:on
@@ -28,7 +27,7 @@ public class DelimitedSubTest extends BaseTest {
 	/** The Constant SUB. */
 	//@formatter:off
 	private static final Node SUB = 
-			new FlatNode("sub")
+			new Node("sub")
 			.add(new DelimitedLeaf("contentA", ";"))
 			.add(new DelimitedLeaf("contentB", ";"));
 	//@formatter:on
@@ -36,7 +35,7 @@ public class DelimitedSubTest extends BaseTest {
 	/** The Constant SUBSUB. */
 	//@formatter:off
 	private static final Node SUBSUB = 
-			new FlatNode("subsub")
+			new Node("subsub")
 			.add(new ConstantLeaf("2"))
 			.add(new DelimitedLeaf("content", ";"));
 	//@formatter:on

@@ -19,14 +19,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.platzhaltr.flatlinr.api.Leaf;
-import com.platzhaltr.flatlinr.api.Node;
 
 /**
- * A basic {@link Node} implementation
- *
+ * A basic node
+ * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
-public class FlatNode implements Node {
+public class Node {
 
 	/** The child. */
 	private Node child;
@@ -39,74 +38,69 @@ public class FlatNode implements Node {
 
 	/**
 	 * Instantiates a new flat node.
-	 *
+	 * 
 	 * @param name
 	 *            the name
 	 */
-	public FlatNode(final String name) {
+	public Node(final String name) {
 		this.name = name;
 		leafs = new LinkedList<Leaf>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Node#getName()
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Node#getChild()
+	/**
+	 * Gets the child.
+	 * 
+	 * @return the child
 	 */
-	@Override
 	public Node getChild() {
 		return child;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * com.platzhaltr.flatlinr.api.Node#setChild(com.platzhaltr.flatlinr.api
-	 * .FlatNode)
+	/**
+	 * Sets the child.
+	 * 
+	 * @param child
+	 *            the child
+	 * @return the node
 	 */
-	@Override
 	public Node setChild(final Node child) {
 		this.child = child;
 		return this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Node#getLeafs()
+	/**
+	 * Gets the leafs.
+	 * 
+	 * @return the leafs
 	 */
-	@Override
 	public List<Leaf> getLeafs() {
 		return leafs;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see
-	 * com.platzhaltr.flatlinr.api.Node#addLeaf(com.platzhaltr.flatlinr.api.
-	 * Leaf)
+	/**
+	 * Adds the.
+	 * 
+	 * @param leaf
+	 *            the leaf
+	 * @return the node
 	 */
-	@Override
-	public FlatNode add(final Leaf leaf) {
+	public Node add(final Leaf leaf) {
 		leafs.add(leaf);
 		return this;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -121,7 +115,7 @@ public class FlatNode implements Node {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -132,7 +126,7 @@ public class FlatNode implements Node {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final FlatNode other = (FlatNode) obj;
+		final Node other = (Node) obj;
 		if (child == null) {
 			if (other.child != null)
 				return false;
@@ -153,7 +147,7 @@ public class FlatNode implements Node {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

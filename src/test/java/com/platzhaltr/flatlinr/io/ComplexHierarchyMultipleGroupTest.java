@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.platzhaltr.flatlinr.api.Record;
+import com.platzhaltr.flatlinr.core.Record;
 
 public class ComplexHierarchyMultipleGroupTest extends ComplexHierarchyBaseTest {
 

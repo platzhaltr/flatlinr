@@ -24,8 +24,6 @@ import java.util.Stack;
 
 import com.platzhaltr.flatlinr.api.Feature;
 import com.platzhaltr.flatlinr.api.Leaf;
-import com.platzhaltr.flatlinr.api.Node;
-import com.platzhaltr.flatlinr.api.Record;
 
 /**
  * The Class FlatFileReader.
@@ -81,7 +79,7 @@ public class FlatFileIterator implements Iterator<Record> {
 			}
 		}
 
-		final Record record = new FlatRecord(currentNode.getName());
+		final Record record = new Record(currentNode.getName());
 
 		for (final Leaf leaf : currentNode.getLeafs()) {
 			if (leaf instanceof ConstantLeaf) {

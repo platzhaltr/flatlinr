@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-import com.platzhaltr.flatlinr.api.Node;
 import com.platzhaltr.flatlinr.core.FlatFileIterator;
+import com.platzhaltr.flatlinr.core.Node;
 
 public abstract class BaseTest {
 

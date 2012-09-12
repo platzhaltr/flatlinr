@@ -18,14 +18,12 @@ package com.platzhaltr.flatlinr.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.platzhaltr.flatlinr.api.Record;
-
 /**
- * The Class FlatRecord.
- *
+ * The Class Record.
+ * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
-public class FlatRecord implements Record {
+public class Record {
 
 	/** The partials. */
 	private final Map<String, String> partials;
@@ -35,59 +33,59 @@ public class FlatRecord implements Record {
 
 	/**
 	 * Instantiates a new flat record.
-	 *
+	 * 
 	 * @param name
 	 *            the name
 	 */
-	public FlatRecord(final String name) {
+	public Record(final String name) {
 		this.name = name;
 		partials = new HashMap<String, String>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Record#getPartials()
+	/**
+	 * Gets the partials.
+	 * 
+	 * @return the partials
 	 */
-	@Override
 	public Map<String, String> getPartials() {
 		return partials;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Record#getName()
+	/**
+	 * Gets the name.
+	 * 
+	 * @return the name
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Record#addPartial(java.lang.String,
-	 * java.lang.String)
+	/**
+	 * Put.
+	 * 
+	 * @param name
+	 *            the name
+	 * @param value
+	 *            the value
 	 */
-	@Override
 	public void put(final String name, final String value) {
 		partials.put(name, value);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Record#getPartial(java.lang.String)
+	/**
+	 * Gets the.
+	 * 
+	 * @param name
+	 *            the name
+	 * @return the string
 	 */
-	@Override
 	public String get(final String name) {
 		return partials.get(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -102,7 +100,7 @@ public class FlatRecord implements Record {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -113,7 +111,7 @@ public class FlatRecord implements Record {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final FlatRecord other = (FlatRecord) obj;
+		final Record other = (Record) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -129,7 +127,7 @@ public class FlatRecord implements Record {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

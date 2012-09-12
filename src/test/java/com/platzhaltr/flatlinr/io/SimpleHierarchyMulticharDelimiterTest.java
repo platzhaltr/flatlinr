@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.platzhaltr.flatlinr.api.Record;
+import com.platzhaltr.flatlinr.core.Record;
 
 public class SimpleHierarchyMulticharDelimiterTest extends
 		SimpleHierarchyBaseTest {

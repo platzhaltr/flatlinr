@@ -1,23 +1,22 @@
 package com.platzhaltr.flatlinr.io;
 
-import com.platzhaltr.flatlinr.api.Node;
 import com.platzhaltr.flatlinr.core.ConstantLeaf;
 import com.platzhaltr.flatlinr.core.DelimitedLeaf;
-import com.platzhaltr.flatlinr.core.FlatNode;
+import com.platzhaltr.flatlinr.core.Node;
 
 public abstract class SimpleHierarchyBaseTest extends BaseTest {
 
 	/** The Constant CATEGORY. */
 	// @formatter:off
 	private static final Node CATEGORY = 
-			new FlatNode("category")
+			new Node("category")
 			.add(new ConstantLeaf("1-"))
 			.add(new DelimitedLeaf("name"));
 	// @formatter:on
 
 	/** The Constant SKILL. */
 	// @formatter:off
-	private static final Node SPELL = new FlatNode("spell")
+	private static final Node SPELL = new Node("spell")
 			.add(new ConstantLeaf("2-* "))
 			.add(new DelimitedLeaf("name", "1|"))
 			.add(new DelimitedLeaf("source", '|'))
@@ -32,7 +31,7 @@ public abstract class SimpleHierarchyBaseTest extends BaseTest {
 	// @formatter:on
 
 	/** The Constant ROOT. */
-	protected static final Node ROOT_NODE = ((FlatNode) CATEGORY)
+	protected static final Node ROOT_NODE = ((Node) CATEGORY)
 			.setChild(SPELL);
 
 }
