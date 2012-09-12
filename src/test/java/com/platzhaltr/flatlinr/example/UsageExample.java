@@ -10,31 +10,45 @@ import com.platzhaltr.flatlinr.core.ConstantLeaf;
 import com.platzhaltr.flatlinr.core.DelimitedLeaf;
 import com.platzhaltr.flatlinr.core.FlatNode;
 import com.platzhaltr.flatlinr.io.FlatFileReader;
+import com.platzhaltr.flatlinr.util.Features;
 
 public class UsageExample {
 
-	// First you would define the structure of the file
+	// define the structure of the file
 	private final Node getRoot() {
-		final Node root = new FlatNode("library").add(new ConstantLeaf("#"))
+		//@formatter:off
+		final Node root = 
+				new FlatNode("library")
+				.add(new ConstantLeaf("#"))
 				.add(new DelimitedLeaf("name", ";"));
-		final FlatNode room = new FlatNode("shelf").add(new ConstantLeaf("- "))
+			
+			final FlatNode room = 
+				new FlatNode("shelf")
+				.add(new ConstantLeaf("- "))
 				.add(new DelimitedLeaf("room", ";"));
-		final FlatNode shelf = new FlatNode("culture").add(
-				new ConstantLeaf("\t- ")).add(new DelimitedLeaf("shelf", ";"));
+			
+			// you can also auto-convert delimited leafs via Features
+			final FlatNode shelf = 
+				new FlatNode("culture")
+				.add(new ConstantLeaf("\t- "))
+				.add(new DelimitedLeaf("shelf", ";",
+					Features.LOWER_CASE));
+			//@formatter:on
+			
+			room.setChild(shelf);
+			root.setChild(room);
 
-		room.setChild(shelf);
-		root.setChild(room);
-
-		return root;
+			return root;
 	}
 
-	// You read the file with
-	public final void read(final File path) throws IOException {
-		final FlatFileReader flatFileReader = new FlatFileReader(getRoot(),
-				new FileReader(path));
+	public final void read(final File file) throws IOException {
+		final FlatFileReader reader = 
+				new FlatFileReader(
+					getRoot(),
+					new FileReader(file));
 
-		while (flatFileReader.hasNext()) {
-			final Record record = flatFileReader.next();
+		while (reader.hasNext()) {
+			final Record record = reader.next();
 			System.out.println(record.getName());
 			if (record.get("culture") != null) {
 				System.out.println(record.get("culture"));
