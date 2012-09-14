@@ -34,8 +34,8 @@ public class ComplexHierarchyBaseTest extends BaseTest {
 	//@formatter:on
 
 	{
-		SUB.setChild(SUBSUB);
-		GROUP.setChild(SUB);
+		SUB.addChild(SUBSUB);
+		GROUP.addChild(SUB);
 	}
 
 	/** The Constant ROOT. */

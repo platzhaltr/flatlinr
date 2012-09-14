@@ -15,6 +15,7 @@
  */
 package com.platzhaltr.flatlinr.core;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,11 +28,13 @@ import com.platzhaltr.flatlinr.api.Leaf;
  */
 public class Node {
 
-	/** The child. */
-	private Node child;
+	/** The id. */
+	private final String id;
 
-	/** The name. */
-	private final String name;
+	private Node parent = null;
+
+	/** The children. */
+	private final List<Node> children;
 
 	/** The leafs. */
 	private final List<Leaf> leafs;
@@ -39,42 +42,62 @@ public class Node {
 	/**
 	 * Instantiates a new flat node.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 */
-	public Node(final String name) {
-		this.name = name;
+	public Node(final String id) {
+		this.id = id;
+		children = new ArrayList<Node>();
 		leafs = new LinkedList<Leaf>();
 	}
 
 	/**
-	 * Gets the name.
+	 * Gets the id.
 	 * 
-	 * @return the name
+	 * @return the id
 	 */
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
 
 	/**
-	 * Gets the child.
+	 * Get the children.
 	 * 
 	 * @return the child
 	 */
-	public Node getChild() {
-		return child;
+	public List<Node> getChildren() {
+		return children;
 	}
 
 	/**
-	 * Sets the child.
+	 * Add a child node.
 	 * 
 	 * @param child
 	 *            the child
 	 * @return the node
 	 */
-	public Node setChild(final Node child) {
-		this.child = child;
+	public Node addChild(final Node child) {
+		this.children.add(child);
+		child.setParent(this);
 		return this;
+	}
+
+	/**
+	 * Sets the parent.
+	 *
+	 * @param node the new parent
+	 */
+	private void setParent(Node node) {
+		parent = node;
+	}
+
+	/**
+	 * Gets the parent.
+	 * 
+	 * @return the parent
+	 */
+	public Node getParent() {
+		return parent;
 	}
 
 	/**
@@ -98,63 +121,48 @@ public class Node {
 		return this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((child == null) ? 0 : child.hashCode());
+		result = prime * result
+				+ ((children == null) ? 0 : children.hashCode());
 		result = prime * result + ((leafs == null) ? 0 : leafs.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Node other = (Node) obj;
-		if (child == null) {
-			if (other.child != null)
+		Node other = (Node) obj;
+		if (children == null) {
+			if (other.children != null)
 				return false;
-		} else if (!child.equals(other.child))
+		} else if (!children.equals(other.children))
 			return false;
 		if (leafs == null) {
 			if (other.leafs != null)
 				return false;
 		} else if (!leafs.equals(other.leafs))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "FlatNode [" + (name != null ? "name=" + name + ", " : "")
-				+ (child != null ? "child=" + child + ", " : "") + "leafs="
-				+ leafs + "]";
+		return "Node [id=" + id + ", leafs=" + leafs + ", children="
+				+ children + "]";
 	}
 
 }

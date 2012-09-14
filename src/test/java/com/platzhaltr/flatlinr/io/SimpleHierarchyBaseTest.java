@@ -32,6 +32,6 @@ public abstract class SimpleHierarchyBaseTest extends BaseTest {
 
 	/** The Constant ROOT. */
 	protected static final Node ROOT_NODE = ((Node) CATEGORY)
-			.setChild(SPELL);
+			.addChild(SPELL);
 
 }

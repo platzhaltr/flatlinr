@@ -42,7 +42,7 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 
 	/** The Constant ROOT. */
 	protected static final Node ROOT_NODE = ((Node) CATEGORY)
-			.setChild(SPELL);
+			.addChild(SPELL);
 
 	/** The Constant PATH */
 	private static final String PATH = "/flatfile.complex.multichar-delimiter.txt";
@@ -53,14 +53,14 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 		while (iterator.hasNext()) {
 			final Record record = iterator.next();
 
-			if (record.getName().equals("category")) {
+			if (record.getId().equals("category")) {
 
 				final String categoryName = record.get("name");
 
 				assertTrue(!categoryName.isEmpty());
 				assertEquals("combat", categoryName);
 
-			} else if (record.getName().equals("spell")) {
+			} else if (record.getId().equals("spell")) {
 				final String name = record.get("name");
 				final String source = record.get("source");
 				final String type = record.get("type");

@@ -25,62 +25,62 @@ import java.util.Map;
  */
 public class Record {
 
-	/** The partials. */
-	private final Map<String, String> partials;
+	/** The entries. */
+	private final Map<String, String> entries;
 
-	/** The name. */
-	private final String name;
+	/** The id. */
+	private final String id;
 
 	/**
 	 * Instantiates a new flat record.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 */
-	public Record(final String name) {
-		this.name = name;
-		partials = new HashMap<String, String>();
+	public Record(final String id) {
+		this.id = id;
+		entries = new HashMap<String, String>();
 	}
 
 	/**
-	 * Gets the partials.
+	 * Gets the entries.
 	 * 
-	 * @return the partials
+	 * @return the entries
 	 */
-	public Map<String, String> getPartials() {
-		return partials;
+	public Map<String, String> getEntries() {
+		return entries;
 	}
 
 	/**
-	 * Gets the name.
+	 * Gets the id.
 	 * 
-	 * @return the name
+	 * @return the id
 	 */
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
 
 	/**
 	 * Put.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 * @param value
 	 *            the value
 	 */
 	public void put(final String name, final String value) {
-		partials.put(name, value);
+		entries.put(name, value);
 	}
 
 	/**
 	 * Gets the.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 * @return the string
 	 */
 	public String get(final String name) {
-		return partials.get(name);
+		return entries.get(name);
 	}
 
 	/*
@@ -92,9 +92,8 @@ public class Record {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((partials == null) ? 0 : partials.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((entries == null) ? 0 : entries.hashCode());
 		return result;
 	}
 
@@ -112,15 +111,15 @@ public class Record {
 		if (getClass() != obj.getClass())
 			return false;
 		final Record other = (Record) obj;
-		if (name == null) {
-			if (other.name != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!id.equals(other.id))
 			return false;
-		if (partials == null) {
-			if (other.partials != null)
+		if (entries == null) {
+			if (other.entries != null)
 				return false;
-		} else if (!partials.equals(other.partials))
+		} else if (!entries.equals(other.entries))
 			return false;
 		return true;
 	}
@@ -132,9 +131,9 @@ public class Record {
 	 */
 	@Override
 	public String toString() {
-		if (partials.isEmpty()) {
-			return "FlatRecord [name=" + name + "]";
+		if (entries.isEmpty()) {
+			return "Record [id=" + id + "]";
 		}
-		return "FlatRecord [name=" + name + ", partials=" + partials + "]";
+		return "Record [id=" + id + ", entries=" + entries + "]";
 	}
 }

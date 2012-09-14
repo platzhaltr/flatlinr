@@ -29,7 +29,7 @@ public class ComplexHierarchySimpleTest extends ComplexHierarchyBaseTest {
 		final List<Record> records = new LinkedList<Record>();
 		while (iterator.hasNext()) {
 			final Record record = iterator.next();
-			System.out.println(record.getName());
+			System.out.println(record.getId());
 			if (record.get("culture") != null) {
 				System.out.println(record.get("culture"));
 			}

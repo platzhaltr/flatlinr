@@ -24,6 +24,7 @@ import java.util.Stack;
 
 import com.platzhaltr.flatlinr.api.Feature;
 import com.platzhaltr.flatlinr.api.Leaf;
+import com.platzhaltr.flatlinr.api.TraverseStrategy;
 
 /**
  * The Class FlatFileReader.
@@ -44,6 +45,21 @@ public class FlatFileIterator implements Iterator<Record> {
 	/** The next line. */
 	private String nextLine;
 
+	/** The traverse strategy. */
+	private TraverseStrategy traverseStrategy;
+
+	/**
+	 * Instantiates a new flat file iterator.
+	 * 
+	 * @param flatNode
+	 *            the flat node
+	 * @param reader
+	 *            the reader
+	 */
+	public FlatFileIterator(final Node flatNode, final Reader reader) {
+		this(flatNode, reader, new DefaultTraverseStrategy());
+	}
+
 	/**
 	 * Instantiates a new flat file reader.
 	 * 
@@ -51,8 +67,12 @@ public class FlatFileIterator implements Iterator<Record> {
 	 *            the node
 	 * @param reader
 	 *            the reader
+	 * @param traverseStrategy
+	 *            the traverse strategy
 	 */
-	public FlatFileIterator (final Node flatNode, final Reader reader) {
+	public FlatFileIterator(final Node flatNode, final Reader reader,
+			TraverseStrategy traverseStrategy) {
+		this.traverseStrategy = traverseStrategy;
 		if (reader instanceof BufferedReader) {
 			this.reader = (BufferedReader) reader;
 		} else {
@@ -79,7 +99,7 @@ public class FlatFileIterator implements Iterator<Record> {
 			}
 		}
 
-		final Record record = new Record(currentNode.getName());
+		final Record record = new Record(currentNode.getId());
 
 		for (final Leaf leaf : currentNode.getLeafs()) {
 			if (leaf instanceof ConstantLeaf) {
@@ -98,7 +118,9 @@ public class FlatFileIterator implements Iterator<Record> {
 					indexOf = currentLine.length();
 					last = true;
 				}
-				final String value = applyFeatures(currentLine.substring(0, indexOf), delimitedLeaf.getFeatures());
+				final String value = applyFeatures(
+						currentLine.substring(0, indexOf),
+						delimitedLeaf.getFeatures());
 				record.put(leaf.getName(), value);
 
 				// we reached the end of the line and leave the loop
@@ -116,7 +138,7 @@ public class FlatFileIterator implements Iterator<Record> {
 			throw new RuntimeException(e);
 		}
 		if (hasNext()) {
-			stack.push(getNextNode(stack, currentNode, nextLine));
+			stack.push(traverseStrategy.getNextNode(currentNode, nextLine));
 		}
 
 		return record;
@@ -130,7 +152,7 @@ public class FlatFileIterator implements Iterator<Record> {
 	 *             Signals that an I/O exception has occurred.
 	 */
 	@Override
-	public boolean hasNext()  {
+	public boolean hasNext() {
 		try {
 			return nextLine != null || reader.ready();
 		} catch (IOException e) {
@@ -147,97 +169,6 @@ public class FlatFileIterator implements Iterator<Record> {
 		currentLine = null;
 		nextLine = reader.readLine();
 		return nextLine;
-	}
-
-	/**
-	 * Gets the next node.
-	 * 
-	 * @param stack
-	 *            the stack
-	 * @param currentNode
-	 *            the current node
-	 * @param nextLine
-	 *            the next line
-	 * @return the next node
-	 */
-	private Node getNextNode(final Stack<Node> stack, final Node currentNode,
-			final String nextLine) {
-
-		// bias towards the child if current node has delimited leaf and the
-		// first leaf of the child is constant
-		if (!currentNode.getLeafs().isEmpty()) {
-			final Leaf currentLeaf = currentNode.getLeafs().get(0);
-			if (currentNode.getChild() != null
-					&& !currentNode.getChild().getLeafs().isEmpty()) {
-				final Leaf childLeaf = currentNode.getChild().getLeafs().get(0);
-				if ((currentLeaf instanceof DelimitedLeaf)
-						&& (childLeaf instanceof ConstantLeaf)) {
-					if (isMatchingLeaf(childLeaf, currentNode.getChild()
-							.getLeafs().size() == 1, nextLine)) {
-						// remember ancestor
-						stack.push(currentNode);
-						return currentNode.getChild();
-					}
-				}
-
-			}
-		}
-
-		// bias towards the current node
-		if (!currentNode.getLeafs().isEmpty()) {
-			if (isMatchingLeaf(currentNode.getLeafs().get(0), currentNode
-					.getLeafs().size() == 1, nextLine)) {
-				return currentNode;
-			}
-		}
-
-		// then towards the child
-		if (currentNode.getChild() != null) {
-			if (!currentNode.getChild().getLeafs().isEmpty()) {
-				if (isMatchingLeaf(currentNode.getChild().getLeafs().get(0),
-						currentNode.getChild().getLeafs().size() == 1, nextLine)) {
-					// remember ancestor
-					stack.push(currentNode);
-					return currentNode.getChild();
-				}
-			}
-		}
-
-		// then towards the parent
-		while (!stack.isEmpty() && stack.peek() != null) {
-			final Node pop = stack.pop();
-			if (!pop.getLeafs().isEmpty()) {
-				if (isMatchingLeaf(pop.getLeafs().get(0),
-						pop.getLeafs().size() == 1, nextLine)) {
-					return pop;
-				}
-			}
-		}
-
-		throw new IllegalStateException("No viable node found");
-	}
-
-	/**
-	 * Checks if the leaf matches the start of the line
-	 * 
-	 * @param leaf
-	 *            the leaf
-	 * @param line
-	 *            the line
-	 * @return true, if leaf is matching
-	 */
-	private boolean isMatchingLeaf(final Leaf leaf, final boolean onlyLeaf,
-			final String line) {
-		if (leaf instanceof ConstantLeaf) {
-			final ConstantLeaf constantLeaf = (ConstantLeaf) leaf;
-			return line.startsWith(constantLeaf.getConstant());
-		} else if (leaf instanceof DelimitedLeaf) {
-			final DelimitedLeaf delimitedLeaf = (DelimitedLeaf) leaf;
-			return onlyLeaf
-					|| (line.indexOf(delimitedLeaf.getDelimiter()) >= 0);
-		}
-
-		throw new IllegalStateException("No matching leaf found");
 	}
 
 	private String applyFeatures(String s, List<Feature> features) {

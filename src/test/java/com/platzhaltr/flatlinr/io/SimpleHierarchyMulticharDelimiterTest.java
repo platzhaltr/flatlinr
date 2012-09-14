@@ -20,12 +20,12 @@ public class SimpleHierarchyMulticharDelimiterTest extends
 		while (iterator.hasNext()) {
 			final Record record = iterator.next();
 
-			if (record.getName().equals("category")) {
+			if (record.getId().equals("category")) {
 
 				final String categoryName = record.get("name");
 
 				assertTrue(!categoryName.isEmpty());
-			} else if (record.getName().equals("spell")) {
+			} else if (record.getId().equals("spell")) {
 				final String name = record.get("name").trim();
 				final String source = record.get("source").trim();
 				final String type = record.get("type").trim();

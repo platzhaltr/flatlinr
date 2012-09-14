@@ -1,0 +1,6 @@
+1-STANDARD
+2-* Adrenal Pump 1 (trig)          1|mm.064|10/16 days|1.25|60000||s|3.0|+1QCK,+2STR,+1WIL,+2RCT, damage taken
+2-* Adrenal Pump 2 (trig)          1|mm.064|10/16 days|2.5|100000||s|3.0|+2QCK,+4STR,+2WIL,+4RCT, damage taken
+2-Compound Eyes
+3-* Compound Eyes 1                1|cp.32|6/60 hours|0.30|3000||s|1.25|
+3-* Compound Eyes 2                1|cp.32|6/60 hours|0.30|6000||s|1.25|
