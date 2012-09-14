@@ -12,11 +12,11 @@ Assume the following example file
 
 	#Library
 		- History
-			- Greek
-			- Asia
+			- Greek;
+			- Asia;
 		- Language
-			- Spanish
-			- English
+			- Spanish;
+			- English;
 			
 You want to break the file into the following structure
 
@@ -40,18 +40,18 @@ public class UsageExample {
 		final Node root = 
 				new Node("library")
 				.add(new ConstantLeaf("#"))
-				.add(new DelimitedLeaf("name"));
+				.add(new LineLeaf("name"));
 			
 		final Node room = 
 			new Node("room")
 			.add(new ConstantLeaf("\t- "))
-			.add(new DelimitedLeaf("name"));
+			.add(new DelimitedLeaf("name", ';'));
 		
 		// you can also auto-convert delimited leafs via Features
 		final Node shelf = 
 			new Node("shelf")
 			.add(new ConstantLeaf("\t\t- "))
-			.add(new DelimitedLeaf("name",
+			.add(new DelimitedLeaf("name", ';',
 				Features.TRIM));
 
 		room.addChild(shelf);

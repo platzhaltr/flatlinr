@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.platzhaltr.flatlinr.core.ConstantLeaf;
 import com.platzhaltr.flatlinr.core.DelimitedLeaf;
 import com.platzhaltr.flatlinr.core.FlatFileIterator;
+import com.platzhaltr.flatlinr.core.LineLeaf;
 import com.platzhaltr.flatlinr.core.Node;
 import com.platzhaltr.flatlinr.core.Record;
 import com.platzhaltr.flatlinr.io.BaseTest;
@@ -50,20 +51,20 @@ public class UsageExample extends BaseTest {
 		final Node root = 
 				new Node("library")
 				.add(new ConstantLeaf("#"))
-				.add(new DelimitedLeaf("name"));
+				.add(new LineLeaf("name"));
 			
-			final Node room = 
-				new Node("room")
-				.add(new ConstantLeaf("\t- "))
-				.add(new DelimitedLeaf("name"));
-			
-			// you can also auto-convert delimited leafs via Features
-			final Node shelf = 
-				new Node("shelf")
-				.add(new ConstantLeaf("\t\t- "))
-				.add(new DelimitedLeaf("name",
-					Features.TRIM));
-			//@formatter:on
+		final Node room = 
+			new Node("room")
+			.add(new ConstantLeaf("\t- "))
+			.add(new DelimitedLeaf("name", ';'));
+		
+		// you can also auto-convert delimited leafs via Features
+		final Node shelf = 
+			new Node("shelf")
+			.add(new ConstantLeaf("\t\t- "))
+			.add(new DelimitedLeaf("name", ';',
+				Features.TRIM));
+		//@formatter:on
 
 		room.addChild(shelf);
 		root.addChild(room);

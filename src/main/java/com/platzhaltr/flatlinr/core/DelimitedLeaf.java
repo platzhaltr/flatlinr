@@ -31,8 +31,8 @@ public class DelimitedLeaf implements Leaf {
 	/** The Constant DEFAULT_DELIMITER. */
 	private static final String DEFAULT_DELIMITER = ";";
 
-	/** The name. */
-	private final String name;
+	/** The id. */
+	private final String id;
 
 	/** The delimiter. */
 	private final String delimiter;
@@ -44,8 +44,8 @@ public class DelimitedLeaf implements Leaf {
 	 * Instantiates a new delimited leaf with the <b>default delimiter</b>
 	 * <code>;</code>
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 */
 	public DelimitedLeaf(final String name) {
 		this(name, DEFAULT_DELIMITER);
@@ -54,8 +54,8 @@ public class DelimitedLeaf implements Leaf {
 	/**
 	 * Instantiates a new delimited leaf.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 * @param features
 	 *            the features
 	 */
@@ -66,8 +66,8 @@ public class DelimitedLeaf implements Leaf {
 	/**
 	 * Instantiates a new delimited leaf.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 * @param delimiter
 	 *            the delimiter
 	 */
@@ -78,8 +78,8 @@ public class DelimitedLeaf implements Leaf {
 	/**
 	 * Instantiates a new delimited leaf.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 * @param delimiter
 	 *            the delimiter
 	 * @param features
@@ -93,8 +93,8 @@ public class DelimitedLeaf implements Leaf {
 	/**
 	 * Instantiates a new delimited leaf.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 * @param delimiter
 	 *            the delimiter
 	 */
@@ -105,8 +105,8 @@ public class DelimitedLeaf implements Leaf {
 	/**
 	 * Instantiates a new delimited leaf.
 	 * 
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 * @param delimiter
 	 *            the delimiter
 	 * @param features
@@ -114,7 +114,7 @@ public class DelimitedLeaf implements Leaf {
 	 */
 	public DelimitedLeaf(final String name, final String delimiter,
 			Feature... features) {
-		this.name = name;
+		this.id = name;
 		this.delimiter = delimiter;
 		this.features = Arrays.asList(features);
 	}
@@ -125,8 +125,8 @@ public class DelimitedLeaf implements Leaf {
 	 * @see com.platzhaltr.flatlinr.api.Leaf#getName()
 	 */
 	@Override
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class DelimitedLeaf implements Leaf {
 				+ ((delimiter == null) ? 0 : delimiter.hashCode());
 		result = prime * result
 				+ ((features == null) ? 0 : features.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -178,17 +178,17 @@ public class DelimitedLeaf implements Leaf {
 				return false;
 		} else if (!features.equals(other.features))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "DelimitedLeaf [name=" + name + ", delimiter=" + delimiter
+		return "DelimitedLeaf [id=" + id + ", delimiter=" + delimiter
 				+ ", features=" + features + "]";
 	}
 

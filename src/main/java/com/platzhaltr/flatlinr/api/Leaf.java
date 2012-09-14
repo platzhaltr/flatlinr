@@ -23,10 +23,10 @@ package com.platzhaltr.flatlinr.api;
 public interface Leaf {
 
 	/**
-	 * Gets the name.
+	 * Gets the id.
 	 *
-	 * @return the name
+	 * @return the id
 	 */
-	public String getName();
+	public String getId();
 
 }

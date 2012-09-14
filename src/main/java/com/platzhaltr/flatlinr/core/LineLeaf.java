@@ -15,49 +15,53 @@
  */
 package com.platzhaltr.flatlinr.core;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.platzhaltr.flatlinr.api.Feature;
 import com.platzhaltr.flatlinr.api.Leaf;
 
 /**
- * The Class ConstantLeaf.
+ * The Class LineLeaf.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
-public class ConstantLeaf implements Leaf {
-
-	/** The constant. */
-	private final String constant;
+public class LineLeaf implements Leaf {
 
 	/** The id. */
 	private final String id;
 
-	/**
-	 * Instantiates a new constant leaf.
-	 * 
-	 * @param constant
-	 *            the constant
-	 */
-	public ConstantLeaf(final String constant) {
-		this(constant, constant);
-	}
+	/** The features. */
+	private final List<Feature> features;
 
 	/**
-	 * Instantiates a new constant leaf.
+	 * Instantiates a new line leaf.
 	 * 
 	 * @param id
 	 *            the id
-	 * @param constant
-	 *            the constant
 	 */
-	public ConstantLeaf(final String name, final String constant) {
+	public LineLeaf(String id) {
+		this(id, new Feature[] {});
+	}
+
+	/**
+	 * Instantiates a new line leaf.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param features
+	 *            the features
+	 */
+	public LineLeaf(String id, Feature... features) {
 		super();
-		this.id = name;
-		this.constant = constant;
+		this.id = id;
+		this.features = Arrays.asList(features);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.platzhaltr.flatlinr.api.Leaf#getName()
+	 * @see com.platzhaltr.flatlinr.api.Leaf#getId()
 	 */
 	@Override
 	public String getId() {
@@ -65,12 +69,12 @@ public class ConstantLeaf implements Leaf {
 	}
 
 	/**
-	 * Gets the constant.
+	 * Gets the features.
 	 * 
-	 * @return the constant
+	 * @return the features
 	 */
-	public String getConstant() {
-		return constant;
+	public List<Feature> getFeatures() {
+		return features;
 	}
 
 	/*
@@ -83,7 +87,7 @@ public class ConstantLeaf implements Leaf {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((constant == null) ? 0 : constant.hashCode());
+				+ ((features == null) ? 0 : features.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -94,18 +98,18 @@ public class ConstantLeaf implements Leaf {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final ConstantLeaf other = (ConstantLeaf) obj;
-		if (constant == null) {
-			if (other.constant != null)
+		LineLeaf other = (LineLeaf) obj;
+		if (features == null) {
+			if (other.features != null)
 				return false;
-		} else if (!constant.equals(other.constant))
+		} else if (!features.equals(other.features))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -122,11 +126,7 @@ public class ConstantLeaf implements Leaf {
 	 */
 	@Override
 	public String toString() {
-		if (id.equals(constant)) {
-			return "ConstantLeaf [constant=" + constant + "]";
-		}
-
-		return "ConstantLeaf [id=" + id + ", constant=" + constant + "]";
+		return "LineLeaf [" + (id != null ? "id=" + id : "") + "]";
 	}
 
 }
