@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.platzhaltr.flatlinr.api.Record;
+import com.platzhaltr.flatlinr.core.Record;
 
 public class ComplexHierarchyMultipleSubSubTest extends
 		ComplexHierarchyBaseTest {
@@ -21,8 +21,8 @@ public class ComplexHierarchyMultipleSubSubTest extends
 	public void testMultipleSubSub() throws IOException {
 		parse(PATH, ROOT);
 		final List<Record> records = new LinkedList<Record>();
-		while (reader.hasNext()) {
-			final Record record = reader.next();
+		while (iterator.hasNext()) {
+			final Record record = iterator.next();
 			records.add(record);
 		}
 		assertNotNull(records);

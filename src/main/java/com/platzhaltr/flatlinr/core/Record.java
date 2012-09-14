@@ -18,91 +18,88 @@ package com.platzhaltr.flatlinr.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.platzhaltr.flatlinr.api.Record;
-
 /**
- * The Class FlatRecord.
- *
+ * The Class Record.
+ * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
-public class FlatRecord implements Record {
+public class Record {
 
-	/** The partials. */
-	private final Map<String, String> partials;
+	/** The entries. */
+	private final Map<String, String> entries;
 
-	/** The name. */
-	private final String name;
+	/** The id. */
+	private final String id;
 
 	/**
 	 * Instantiates a new flat record.
-	 *
-	 * @param name
-	 *            the name
+	 * 
+	 * @param id
+	 *            the id
 	 */
-	public FlatRecord(final String name) {
-		this.name = name;
-		partials = new HashMap<String, String>();
+	public Record(final String id) {
+		this.id = id;
+		entries = new HashMap<String, String>();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Record#getPartials()
+	/**
+	 * Gets the entries.
+	 * 
+	 * @return the entries
 	 */
-	@Override
-	public Map<String, String> getPartials() {
-		return partials;
+	public Map<String, String> getEntries() {
+		return entries;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Record#getName()
+	/**
+	 * Gets the id.
+	 * 
+	 * @return the id
 	 */
-	@Override
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Record#addPartial(java.lang.String,
-	 * java.lang.String)
+	/**
+	 * Put.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param value
+	 *            the value
 	 */
-	@Override
 	public void put(final String name, final String value) {
-		partials.put(name, value);
+		entries.put(name, value);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see com.platzhaltr.flatlinr.api.Record#getPartial(java.lang.String)
+	/**
+	 * Gets the.
+	 * 
+	 * @param id
+	 *            the id
+	 * @return the string
 	 */
-	@Override
 	public String get(final String name) {
-		return partials.get(name);
+		return entries.get(name);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((partials == null) ? 0 : partials.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((entries == null) ? 0 : entries.hashCode());
 		return result;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -113,30 +110,30 @@ public class FlatRecord implements Record {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final FlatRecord other = (FlatRecord) obj;
-		if (name == null) {
-			if (other.name != null)
+		final Record other = (Record) obj;
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!id.equals(other.id))
 			return false;
-		if (partials == null) {
-			if (other.partials != null)
+		if (entries == null) {
+			if (other.entries != null)
 				return false;
-		} else if (!partials.equals(other.partials))
+		} else if (!entries.equals(other.entries))
 			return false;
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		if (partials.isEmpty()) {
-			return "FlatRecord [name=" + name + "]";
+		if (entries.isEmpty()) {
+			return "Record [id=" + id + "]";
 		}
-		return "FlatRecord [name=" + name + ", partials=" + partials + "]";
+		return "Record [id=" + id + ", entries=" + entries + "]";
 	}
 }

@@ -15,45 +15,24 @@
  */
 package com.platzhaltr.flatlinr.api;
 
-import java.util.Map;
+import com.platzhaltr.flatlinr.core.Node;
 
 /**
- * The Interface Record.
- *
+ * The Interface TraverseStrategy.
+ * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
-public interface Record {
+public interface TraverseStrategy {
 
 	/**
-	 * Gets the name.
-	 *
-	 * @return the name
+	 * Gets the next node.
+	 * 
+	 * @param currentNode
+	 *            the current node
+	 * @param nextLine
+	 *            the next line
+	 * @return the next node
 	 */
-	String getName();
+	public abstract Node getNextNode(Node currentNode, String nextLine);
 
-	/**
-	 * Gets the partials.
-	 *
-	 * @return the partials
-	 */
-	Map<String, String> getPartials();
-
-	/**
-	 * Put.
-	 *
-	 * @param key
-	 *            the key
-	 * @param value
-	 *            the value
-	 */
-	void put(final String key, final String value);
-
-	/**
-	 * Gets the.
-	 *
-	 * @param key
-	 *            the key
-	 * @return the string
-	 */
-	String get(final String key);
 }

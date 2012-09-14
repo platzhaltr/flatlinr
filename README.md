@@ -1,6 +1,6 @@
 # README #
 
-Parse flat files that describe a hierarchical data structure
+**Flatlinr** supports parse simple flat file structures like CSV files and also really complex hierarchical data structures based on flat files.
 
 	git clone git://github.com/platzhaltr/flatlinr.git
 	cd flatlinr
@@ -11,57 +11,93 @@ Parse flat files that describe a hierarchical data structure
 Assume the following example file
 
 	#Library
-	- History
-		- greek
-		- ROMAN
+		- History
+			- Greek
+			- Asia
+		- Language
+			- Spanish
+			- English
+			
+Now we want to break this file into the following structure
 
-Flatlinr sees the file as a tree.
+	Library
+		- Room
+			- Shelf	
+
+in which a file can multiple rooms, and each room can have multiple shelfs. That means that each node represents a type of records.
+
+But as you can see some shelves are properly indentend but others are shelves are delimited using a semicolon. **Flatlinr** to the rescue. It helps you keeping sane. Once you have defined the structure of the file, **FlatlinrIterator** will take care of traversing the tree for you. All you have to do is to use the iterator interface and react on the various record identifiers.
 
 ```java
+/**
+ * Flatlinr interprets files as tree hierarchical structures.
+ */
 public class UsageExample {
-
+	
 	// define the structure of the file
 	private final Node getRoot() {
+		//@formatter:off
 		final Node root = 
-				new FlatNode("library")
+				new Node("library")
 				.add(new ConstantLeaf("#"))
-				.add(new DelimitedLeaf("name", ";"));
+				.add(new DelimitedLeaf("name"));
 			
-			final FlatNode room = 
-				new FlatNode("shelf")
-				.add(new ConstantLeaf("- "))
-				.add(new DelimitedLeaf("room", ";"));
+			final Node room = 
+				new Node("room")
+				.add(new ConstantLeaf("\t- "))
+				.add(new DelimitedLeaf("name"));
 			
 			// you can also auto-convert delimited leafs via Features
-			final FlatNode shelf = 
-				new FlatNode("culture")
-				.add(new ConstantLeaf("\t- "))
-				.add(new DelimitedLeaf("shelf", ";",
+			final Node shelf = 
+				new Node("shelf")
+				.add(new ConstantLeaf("\t\t- "))
+				.add(new DelimitedLeaf("name", ";",
 					Features.LOWER_CASE));
+			//@formatter:on
 
-			room.setChild(shelf);
-			root.setChild(room);
+		room.addChild(shelf);
+		root.addChild(room);
 
-			return root;
+		return root;
 	}
 
 	public final void read(final File file) throws IOException {
-		final FlatFileReader reader = 
-				new FlatFileReader(
-					getRoot(),
-					new FileReader(file));
+		final FlatFileIterator iterator = new FlatFileIterator(getRoot(),
+				new FileReader(file));
 
-		while (reader.hasNext()) {
-			final Record record = reader.next();
-			System.out.println(record.getName());
-			if (record.get("culture") != null) {
-				System.out.println(record.get("culture"));
+		while (iterator.hasNext()) {
+			final Record record = iterator.next();
+			if (record.getId().equals("library")) {
+				System.out.println(record.get("name"));
+			} else if (record.getId().equals("room")) {
+				System.out.println(record.get("name"));
+			} else if (record.getId().equals("shelf")) {
+				System.out.println(record.get("name"));
 			}
 		}
 	}
 }
 ```
-	
-**Flatlinr** will take care of traversing the tree for you. You can react on the changes by using the `record.getName()` method to know where you are in the tree and build your data accordingly. 
+
+## Traversal ##
+
+**flatlinr** supports more complex structures
+
+- different delimiter per node
+- multiple children per node
+
+The drawback is that the decision which node should be used for parsing the next line is hard. The decision which `Node` is used can be defined in a `TraversalStrategy`. `DefaultTraversalStrategy` uses these in order until it gives up. Each bias is based ont the fact if the the next line starts with the first leaf of the current node.
+
+1. Bias towards the child if it starts with a constant leaf and the current node starts with a delimited leaf.
+2. Bias towards the current node itself. This allows for multiples instances.
+3. Bias towards the children
+4. Bias towards the next siblings
+5. Bias towards the prior siblings
+6. Bias towards the parent
+7. If direct parent doesn't match, recursively traverse the tree up with the parent as the currentNode and start again with rule 4.
+
+If all fails `IllegalStateException` is thrown.
+
+## Notes ##
 
 I also created [Readr](https://github.com/platzhaltr/readr) as a companion project. It creates `java.io.Reader` classes that help you clean up the files by removing or tranforming certain lines.
