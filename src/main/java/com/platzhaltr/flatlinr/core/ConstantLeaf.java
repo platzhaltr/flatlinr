@@ -19,7 +19,7 @@ import com.platzhaltr.flatlinr.api.Leaf;
 
 /**
  * The Class ConstantLeaf.
- *
+ * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
 public class ConstantLeaf implements Leaf {
@@ -32,7 +32,7 @@ public class ConstantLeaf implements Leaf {
 
 	/**
 	 * Instantiates a new constant leaf.
-	 *
+	 * 
 	 * @param constant
 	 *            the constant
 	 */
@@ -42,7 +42,7 @@ public class ConstantLeaf implements Leaf {
 
 	/**
 	 * Instantiates a new constant leaf.
-	 *
+	 * 
 	 * @param id
 	 *            the id
 	 * @param constant
@@ -56,7 +56,7 @@ public class ConstantLeaf implements Leaf {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.platzhaltr.flatlinr.api.Leaf#getName()
 	 */
 	@Override
@@ -66,7 +66,7 @@ public class ConstantLeaf implements Leaf {
 
 	/**
 	 * Gets the constant.
-	 *
+	 * 
 	 * @return the constant
 	 */
 	public String getConstant() {
@@ -75,7 +75,7 @@ public class ConstantLeaf implements Leaf {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -90,7 +90,7 @@ public class ConstantLeaf implements Leaf {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -117,11 +117,15 @@ public class ConstantLeaf implements Leaf {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
+		if (id.equals(constant)) {
+			return "ConstantLeaf [constant=" + constant + "]";
+		}
+
 		return "ConstantLeaf [id=" + id + ", constant=" + constant + "]";
 	}
 
