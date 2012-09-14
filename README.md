@@ -26,7 +26,7 @@ You want to break the file into the following structure
 
 in which a library can have multiple rooms, and each room can have multiple shelves.
 
-**Flatlinr** helps you to keep sane. Once you have defined the structure of the file, instantiate a **FlatlinrIterator**, which will take care of traversing the tree for you. All you have to do is to use the iterator interface and react on the various record identifiers.
+**Flatlinr** helps you to keep sane. Once you have defined the structure of the file, instantiate a **FlatFileIterator**, which will take care of traversing the tree for you. All you have to do is to use the iterator interface and react on the various record identifiers.
 
 ```java
 /**
