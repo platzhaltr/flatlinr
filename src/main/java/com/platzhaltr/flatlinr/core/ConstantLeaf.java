@@ -27,8 +27,8 @@ public class ConstantLeaf implements Leaf {
 	/** The constant. */
 	private final String constant;
 
-	/** The name. */
-	private final String name;
+	/** The id. */
+	private final String id;
 
 	/**
 	 * Instantiates a new constant leaf.
@@ -43,14 +43,14 @@ public class ConstantLeaf implements Leaf {
 	/**
 	 * Instantiates a new constant leaf.
 	 *
-	 * @param name
-	 *            the name
+	 * @param id
+	 *            the id
 	 * @param constant
 	 *            the constant
 	 */
 	public ConstantLeaf(final String name, final String constant) {
 		super();
-		this.name = name;
+		this.id = name;
 		this.constant = constant;
 	}
 
@@ -60,8 +60,8 @@ public class ConstantLeaf implements Leaf {
 	 * @see com.platzhaltr.flatlinr.api.Leaf#getName()
 	 */
 	@Override
-	public String getName() {
-		return name;
+	public String getId() {
+		return id;
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class ConstantLeaf implements Leaf {
 		int result = 1;
 		result = prime * result
 				+ ((constant == null) ? 0 : constant.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -107,10 +107,10 @@ public class ConstantLeaf implements Leaf {
 				return false;
 		} else if (!constant.equals(other.constant))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
@@ -122,7 +122,7 @@ public class ConstantLeaf implements Leaf {
 	 */
 	@Override
 	public String toString() {
-		return "ConstantLeaf [name=" + name + ", constant=" + constant + "]";
+		return "ConstantLeaf [id=" + id + ", constant=" + constant + "]";
 	}
 
 }

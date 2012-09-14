@@ -121,7 +121,7 @@ public class FlatFileIterator implements Iterator<Record> {
 				final String value = applyFeatures(
 						currentLine.substring(0, indexOf),
 						delimitedLeaf.getFeatures());
-				record.put(leaf.getName(), value);
+				record.put(leaf.getId(), value);
 
 				// we reached the end of the line and leave the loop
 				if (last) {
