@@ -18,15 +18,15 @@ Assume the following example file
 			- Spanish
 			- English
 			
-Now we want to break this file into the following structure
+You want to break the file into the following structure
 
 	Library
 		- Room
 			- Shelf	
 
-in which a file can multiple rooms, and each room can have multiple shelfs. That means that each node represents a type of records.
+in which a library can have multiple rooms, and each room can have multiple shelves.
 
-But as you can see some shelves are properly indentend but others are shelves are delimited using a semicolon. **Flatlinr** to the rescue. It helps you keeping sane. Once you have defined the structure of the file, **FlatlinrIterator** will take care of traversing the tree for you. All you have to do is to use the iterator interface and react on the various record identifiers.
+**Flatlinr** helps you to keep sane. Once you have defined the structure of the file, instantiate a **FlatlinrIterator**, which will take care of traversing the tree for you. All you have to do is to use the iterator interface and react on the various record identifiers.
 
 ```java
 /**
@@ -86,7 +86,7 @@ public class UsageExample {
 - different delimiter per node
 - multiple children per node
 
-The drawback is that the decision which node should be used for parsing the next line is hard. The decision which `Node` is used can be defined in a `TraversalStrategy`. `DefaultTraversalStrategy` uses these in order until it gives up. Each bias is based ont the fact if the the next line starts with the first leaf of the current node.
+The drawback is that the decision which node should be used for parsing the next line is hard. The decision can be defined in a `TraversalStrategy`. The `DefaultTraversalStrategy` uses these the following biases in order until it gives up. Each bias is based on the fact if the the next line starts with the first leaf of the current node.
 
 1. Bias towards the child if it starts with a constant leaf and the current node starts with a delimited leaf.
 2. Bias towards the current node itself. This allows for multiples instances.
@@ -100,4 +100,4 @@ If all fails `IllegalStateException` is thrown.
 
 ## Notes ##
 
-I also created [Readr](https://github.com/platzhaltr/readr) as a companion project. It creates `java.io.Reader` classes that help you clean up the files by removing or tranforming certain lines.
+I also created [Readr](https://github.com/platzhaltr/readr) as a companion project. It creates `java.io.Reader` classes that help you clean up the files by removing or transforming certain lines.
