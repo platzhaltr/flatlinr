@@ -61,8 +61,8 @@ public class UsageExample extends BaseTest {
 			final Node shelf = 
 				new Node("shelf")
 				.add(new ConstantLeaf("\t\t- "))
-				.add(new DelimitedLeaf("name", ";",
-					Features.LOWER_CASE));
+				.add(new DelimitedLeaf("name",
+					Features.TRIM));
 			//@formatter:on
 
 		room.addChild(shelf);
