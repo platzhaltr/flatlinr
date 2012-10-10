@@ -16,15 +16,15 @@
 package com.platzhaltr.flatlinr.api;
 
 /**
- * The Interface Leaf.
- *
+ * Identifies a leaf.
+ * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
 public interface Leaf {
 
 	/**
 	 * Gets the id.
-	 *
+	 * 
 	 * @return the id
 	 */
 	public String getId();

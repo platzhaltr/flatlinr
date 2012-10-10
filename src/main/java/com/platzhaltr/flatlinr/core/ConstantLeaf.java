@@ -18,7 +18,7 @@ package com.platzhaltr.flatlinr.core;
 import com.platzhaltr.flatlinr.api.Leaf;
 
 /**
- * The Class ConstantLeaf.
+ * A leaf described by a constant string
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
@@ -31,7 +31,8 @@ public class ConstantLeaf implements Leaf {
 	private final String id;
 
 	/**
-	 * Instantiates a new constant leaf.
+	 * Instantiates a new constant leaf with the given constant, using it also
+	 * as its id.
 	 * 
 	 * @param constant
 	 *            the constant
@@ -41,16 +42,16 @@ public class ConstantLeaf implements Leaf {
 	}
 
 	/**
-	 * Instantiates a new constant leaf.
+	 * Instantiates a new constant leaf
 	 * 
 	 * @param id
 	 *            the id
 	 * @param constant
 	 *            the constant
 	 */
-	public ConstantLeaf(final String name, final String constant) {
+	public ConstantLeaf(final String id, final String constant) {
 		super();
-		this.id = name;
+		this.id = id;
 		this.constant = constant;
 	}
 
@@ -95,23 +96,30 @@ public class ConstantLeaf implements Leaf {
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		final ConstantLeaf other = (ConstantLeaf) obj;
 		if (constant == null) {
-			if (other.constant != null)
+			if (other.constant != null) {
 				return false;
-		} else if (!constant.equals(other.constant))
+			}
+		} else if (!constant.equals(other.constant)) {
 			return false;
+		}
 		if (id == null) {
-			if (other.id != null)
+			if (other.id != null) {
 				return false;
-		} else if (!id.equals(other.id))
+			}
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		return true;
 	}
 

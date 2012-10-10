@@ -22,7 +22,8 @@ import java.util.List;
 import com.platzhaltr.flatlinr.api.Leaf;
 
 /**
- * A basic node
+ * A node in the flat file hierarchy. It points to {@link Leaf}s, which describe
+ * strings that need to be consumed, or to other {@link Node}s.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
@@ -84,10 +85,11 @@ public class Node {
 
 	/**
 	 * Sets the parent.
-	 *
-	 * @param node the new parent
+	 * 
+	 * @param node
+	 *            the new parent
 	 */
-	private void setParent(Node node) {
+	private void setParent(final Node node) {
 		parent = node;
 	}
 
@@ -133,36 +135,45 @@ public class Node {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
-		Node other = (Node) obj;
+		}
+		final Node other = (Node) obj;
 		if (children == null) {
-			if (other.children != null)
+			if (other.children != null) {
 				return false;
-		} else if (!children.equals(other.children))
+			}
+		} else if (!children.equals(other.children)) {
 			return false;
+		}
 		if (leafs == null) {
-			if (other.leafs != null)
+			if (other.leafs != null) {
 				return false;
-		} else if (!leafs.equals(other.leafs))
+			}
+		} else if (!leafs.equals(other.leafs)) {
 			return false;
+		}
 		if (id == null) {
-			if (other.id != null)
+			if (other.id != null) {
 				return false;
-		} else if (!id.equals(other.id))
+			}
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Node [id=" + id + ", leafs=" + leafs + ", children="
-				+ children + "]";
+		return "Node [id=" + id + ", leafs=" + leafs + ", children=" + children
+				+ "]";
 	}
 
 }

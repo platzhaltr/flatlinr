@@ -16,7 +16,17 @@
 package com.platzhaltr.flatlinr.core;
 
 /**
- * The Class AncestorTraverseStrategy.
+ * Determines the selection of the next {@link Node}. It applies the following
+ * biases until a node has been found:
+ * 
+ * <ol>
+ * <li>Bias towards next siblings</li>
+ * <li>Bias towards the previuos siblings</li>
+ * <li>Bias towards the parent</li>
+ * </ol>
+ * 
+ * The process is repeated recursively with the parent node, until a valid node
+ * has been found.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
@@ -37,16 +47,16 @@ public class AncestorTraverseStrategy extends BaseTraverseStrategy {
 	 * .flatlinr.core.Node, java.lang.String)
 	 */
 	@Override
-	public Node getNextNode(Node currentNode, String nextLine) {
+	public Node getNextNode(final Node currentNode, final String nextLine) {
 
-		Node parent = currentNode.getParent();
+		final Node parent = currentNode.getParent();
 
 		if (parent == null) {
 			throw new IllegalStateException("No viable node found");
 		}
 
 		// traverse up the tree until node found
-		Node nextNode = getNextNode(currentNode, parent, nextLine);
+		final Node nextNode = getNextNode(currentNode, parent, nextLine);
 
 		if (nextNode == null) {
 			return getNextNode(parent, nextLine);
@@ -67,7 +77,8 @@ public class AncestorTraverseStrategy extends BaseTraverseStrategy {
 	 *            the next line
 	 * @return the next node
 	 */
-	private Node getNextNode(Node currentNode, Node parent, String nextLine) {
+	private Node getNextNode(final Node currentNode, final Node parent,
+			final String nextLine) {
 
 		// bias towards siblings
 		if (parent.getChildren().size() > 1) {
@@ -77,7 +88,7 @@ public class AncestorTraverseStrategy extends BaseTraverseStrategy {
 			// over prior siblings
 			int indexOfCurrentNode = -1;
 			boolean foundCurrentNode = false;
-			for (Node sibling : parent.getChildren()) {
+			for (final Node sibling : parent.getChildren()) {
 				// important to check for found here, so that code block
 				// doesn't execute if node is last in the list
 				if (foundCurrentNode) {
@@ -100,7 +111,7 @@ public class AncestorTraverseStrategy extends BaseTraverseStrategy {
 			// TODO optimize this loop
 			// then towards prior siblings
 			for (int i = 0; i < indexOfCurrentNode; i++) {
-				Node sibling = parent.getChildren().get(i);
+				final Node sibling = parent.getChildren().get(i);
 				if (!sibling.getLeafs().isEmpty()) {
 					if (isMatchingLeaf(sibling.getLeafs().get(0), sibling
 							.getLeafs().size() == 1, nextLine)) {

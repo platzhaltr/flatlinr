@@ -5,7 +5,7 @@
 	<artifactId>flatlinr</artifactId>
 	<version>0.7-SNAPSHOT</version>
 
-	<name>FlatLine</name>
+	<name>FlatLinr</name>
 	<description>Library for reading hierarchical flat files</description>
 
 	<licenses>

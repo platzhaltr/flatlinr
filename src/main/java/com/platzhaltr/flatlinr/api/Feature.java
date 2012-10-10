@@ -16,7 +16,7 @@
 package com.platzhaltr.flatlinr.api;
 
 /**
- * Generic feature to transform one string into another
+ * Converts an input string to another.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
