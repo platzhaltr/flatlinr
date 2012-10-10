@@ -19,7 +19,8 @@ import com.platzhaltr.flatlinr.api.Leaf;
 import com.platzhaltr.flatlinr.api.TraverseStrategy;
 
 /**
- * The Class BaseTraverseStrategy.
+ * Determines the selection of the next {@link Node}. Contains default methods
+ * to match a leaf against the start of the current (sub-)line.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */

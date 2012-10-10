@@ -18,30 +18,30 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 
 	/** The Constant CATEGORY. */
 	// @formatter:off
-	private static final Node CATEGORY = 
+	private static final Node CATEGORY =
 			new Node("category")
-			.add(new ConstantLeaf("1-"))
-			.add(new DelimitedLeaf("name", Features.TRIM, Features.REPLACE(" Spells", ""), Features.LOWER_CASE));
+	.add(new ConstantLeaf("1-"))
+	.add(new DelimitedLeaf("name", Features.TRIM, Features.REPLACE(" Spells", ""), Features.LOWER_CASE));
 	// @formatter:on
 
 	/** The Constant SKILL. */
 	// @formatter:off
 	private static final Node SPELL = new Node("spell")
-			.add(new ConstantLeaf("2-* "))
-			.add(new DelimitedLeaf("name", "1|", Features.TRIM))
-			.add(new DelimitedLeaf("source", '|', Features.TRIM))
-			.add(new DelimitedLeaf("type", "|", Features.TRIM))
-			.add(new DelimitedLeaf("target", "|", Features.TRIM))
-			.add(new DelimitedLeaf("duration", "|", Features.TRIM))
-			.add(new DelimitedLeaf("range", "|", Features.TRIM, Features.LOWER_CASE))
-			.add(new DelimitedLeaf("drain", "|", Features.TRIM))
-			.add(new DelimitedLeaf("class", "|", Features.TRIM))
-			.add(new DelimitedLeaf("notes", "|", Features.TRIM))
-			;
+	.add(new ConstantLeaf("2-* "))
+	.add(new DelimitedLeaf("name", "1|", Features.TRIM))
+	.add(new DelimitedLeaf("source", '|', Features.TRIM))
+	.add(new DelimitedLeaf("type", "|", Features.TRIM))
+	.add(new DelimitedLeaf("target", "|", Features.TRIM))
+	.add(new DelimitedLeaf("duration", "|", Features.TRIM))
+	.add(new DelimitedLeaf("range", "|", Features.TRIM, Features.LOWER_CASE))
+	.add(new DelimitedLeaf("drain", "|", Features.TRIM))
+	.add(new DelimitedLeaf("class", "|", Features.TRIM))
+	.add(new DelimitedLeaf("notes", "|", Features.TRIM))
+	;
 	// @formatter:on
 
 	/** The Constant ROOT. */
-	protected static final Node ROOT_NODE = ((Node) CATEGORY)
+	protected static final Node ROOT_NODE = CATEGORY
 			.addChild(SPELL);
 
 	/** The Constant PATH */
@@ -85,7 +85,7 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 		}
 	}
 
-	private boolean endsOrBeginsWithWhitespace(String s) {
+	private boolean endsOrBeginsWithWhitespace(final String s) {
 		if (Character.isWhitespace(s.charAt(0))) {
 			return true;
 		}
@@ -95,8 +95,8 @@ public class FeatureTest extends SimpleHierarchyBaseTest {
 		return false;
 	}
 
-	private boolean isAllLower(String s) {
-		for (char c : s.toCharArray()) {
+	private boolean isAllLower(final String s) {
+		for (final char c : s.toCharArray()) {
 			if (Character.isLetter(c) && Character.isUpperCase(c)) {
 				return false;
 			}

@@ -18,14 +18,15 @@ package com.platzhaltr.flatlinr.api;
 import com.platzhaltr.flatlinr.core.Node;
 
 /**
- * The Interface TraverseStrategy.
+ * Determines the selection of the next {@link Node}
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
 public interface TraverseStrategy {
 
 	/**
-	 * Gets the next node.
+	 * Detetmine the next node, depending on the current node, and the content
+	 * of the next line.
 	 * 
 	 * @param currentNode
 	 *            the current node

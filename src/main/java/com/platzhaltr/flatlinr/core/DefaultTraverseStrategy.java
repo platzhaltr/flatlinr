@@ -19,14 +19,33 @@ import com.platzhaltr.flatlinr.api.Leaf;
 import com.platzhaltr.flatlinr.api.TraverseStrategy;
 
 /**
- * The Class DefaultTraverseStrategy.
+ * Determines the selection of the next {@link Node}. It applies the following
+ * biases until a node has been found:
+ * 
+ * <ol>
+ * <li>Bias towards the next child node, if it starts with a constant leaf and
+ * the current node starts with a delimited leaf</li>
+ * <li>Bias towards another instance of the current node</li>
+ * <li>Bias towards the children</li>
+ * <li>Bias towards the ancestors</li>
+ * <ol>
+ * <li>Bias towards next siblings</li>
+ * <li>Bias towards the previuos siblings</li>
+ * <li>Bias towards the parent</li>
+ * </ol>
+ * <li>Traverse uo the tree until a valid node has been found using step 4.</li>
+ * </ol>
+ * 
+ * If no valid node has been found return <code>null</code>, effectively ending
+ * the iteration over the flat file. If this happens changes to the node
+ * hierarchy or even the file itself have to be made.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
 public class DefaultTraverseStrategy extends BaseTraverseStrategy {
 
 	/** The ancestor traverse strategy. */
-	private TraverseStrategy ancestorTraverseStrategy = new AncestorTraverseStrategy();
+	private final TraverseStrategy ancestorTraverseStrategy = new AncestorTraverseStrategy();
 
 	/**
 	 * Instantiates a new default traverse strategy.
@@ -49,13 +68,14 @@ public class DefaultTraverseStrategy extends BaseTraverseStrategy {
 		// current node starts with a delimited leaf
 		if (!currentNode.getLeafs().isEmpty()) {
 			final Leaf firstLeafOfCurrentNode = currentNode.getLeafs().get(0);
-			for (Node childNode : currentNode.getChildren()) {
+			for (final Node childNode : currentNode.getChildren()) {
 				if (!childNode.getLeafs().isEmpty()) {
-					final Leaf firstLeafOfChildNode = childNode.getLeafs().get(0);
+					final Leaf firstLeafOfChildNode = childNode.getLeafs().get(
+							0);
 					if ((firstLeafOfCurrentNode instanceof DelimitedLeaf)
 							&& (firstLeafOfChildNode instanceof ConstantLeaf)) {
-						if (isMatchingLeaf(firstLeafOfChildNode, childNode.getLeafs()
-								.size() == 1, nextLine)) {
+						if (isMatchingLeaf(firstLeafOfChildNode, childNode
+								.getLeafs().size() == 1, nextLine)) {
 							return childNode;
 						}
 					}
@@ -72,7 +92,7 @@ public class DefaultTraverseStrategy extends BaseTraverseStrategy {
 		}
 
 		// then towards the children
-		for (Node childNode : currentNode.getChildren()) {
+		for (final Node childNode : currentNode.getChildren()) {
 			if (!childNode.getLeafs().isEmpty()) {
 				if (isMatchingLeaf(childNode.getLeafs().get(0), childNode
 						.getLeafs().size() == 1, nextLine)) {

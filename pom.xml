@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.platzhaltr</groupId>
 	<artifactId>flatlinr</artifactId>
-	<version>0.6</version>
+	<version>0.7-SNAPSHOT</version>
 
-	<name>FlatLine</name>
+	<name>FlatLinr</name>
 	<description>Library for reading hierarchical flat files</description>
 
 	<licenses>

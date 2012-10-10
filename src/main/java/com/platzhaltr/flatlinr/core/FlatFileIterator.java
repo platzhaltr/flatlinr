@@ -16,6 +16,9 @@
 package com.platzhaltr.flatlinr.core;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
@@ -27,7 +30,15 @@ import com.platzhaltr.flatlinr.api.Leaf;
 import com.platzhaltr.flatlinr.api.TraverseStrategy;
 
 /**
- * The Class FlatFileReader.
+ * Consume a hierarchical flat file.The hierarchy of the flat file can be
+ * descibed using {@link Node}, attaching {@link Leaf} and other child nodes to
+ * them, viewing the flat file as a graph.
+ * 
+ * The iterator uses the graph structure to decide how toi break down each line
+ * into important {@link Record}s. In order to decise what nodes or leafs take
+ * precedence a {@link TraverseStrategy} can be supplied. The default strategy
+ * uses various biases to determine the next node is defined in the
+ * {@link DefaultTraverseStrategy}.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
@@ -46,32 +57,65 @@ public class FlatFileIterator implements Iterator<Record> {
 	private String nextLine;
 
 	/** The traverse strategy. */
-	private TraverseStrategy traverseStrategy;
+	private final TraverseStrategy traverseStrategy;
 
 	/**
 	 * Instantiates a new flat file iterator.
 	 * 
-	 * @param flatNode
+	 * @param rootNode
+	 *            the root node
+	 * @param file
+	 *            the file
+	 * @throws FileNotFoundException
+	 *             the file not found exception
+	 */
+	public FlatFileIterator(final Node rootNode, final File file)
+			throws FileNotFoundException {
+		this(rootNode, new FileReader(file));
+	}
+
+	/**
+	 * Instantiates a new flat file iterator.
+	 * 
+	 * @param rootNode
+	 *            the root node
+	 * @param file
+	 *            the file
+	 * @param traverseStrategy
+	 *            the traverse strategy
+	 * @throws FileNotFoundException
+	 *             the file not found exception
+	 */
+	public FlatFileIterator(final Node rootNode, final File file,
+			final TraverseStrategy traverseStrategy)
+					throws FileNotFoundException {
+		this(rootNode, new FileReader(file), traverseStrategy);
+	}
+
+	/**
+	 * Instantiates a new flat file iterator.
+	 * 
+	 * @param rootNode
 	 *            the flat node
 	 * @param reader
 	 *            the reader
 	 */
-	public FlatFileIterator(final Node flatNode, final Reader reader) {
-		this(flatNode, reader, new DefaultTraverseStrategy());
+	public FlatFileIterator(final Node rootNode, final Reader reader) {
+		this(rootNode, reader, new DefaultTraverseStrategy());
 	}
 
 	/**
 	 * Instantiates a new flat file reader.
 	 * 
-	 * @param flatNode
+	 * @param rootNode
 	 *            the node
 	 * @param reader
 	 *            the reader
 	 * @param traverseStrategy
 	 *            the traverse strategy
 	 */
-	public FlatFileIterator(final Node flatNode, final Reader reader,
-			TraverseStrategy traverseStrategy) {
+	public FlatFileIterator(final Node rootNode, final Reader reader,
+			final TraverseStrategy traverseStrategy) {
 		this.traverseStrategy = traverseStrategy;
 		if (reader instanceof BufferedReader) {
 			this.reader = (BufferedReader) reader;
@@ -79,22 +123,21 @@ public class FlatFileIterator implements Iterator<Record> {
 			this.reader = new BufferedReader(reader);
 		}
 
-		stack.add(flatNode);
+		stack.add(rootNode);
 	}
 
 	/**
-	 * Returns the next {@link Record}
+	 * Returns the next {@link Record}.
 	 * 
 	 * @return the record
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
 	 */
+	@Override
 	public Record next() {
 		final Node currentNode = stack.pop();
 		if (currentLine == null) {
 			try {
 				currentLine = (nextLine != null) ? nextLine : reader.readLine();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -118,8 +161,7 @@ public class FlatFileIterator implements Iterator<Record> {
 					indexOf = currentLine.length();
 					last = true;
 				}
-				final String value = applyFeatures(
-						currentLine.substring(0, indexOf),
+				final String value = apply(currentLine.substring(0, indexOf),
 						delimitedLeaf.getFeatures());
 				record.put(leaf.getId(), value);
 
@@ -133,8 +175,7 @@ public class FlatFileIterator implements Iterator<Record> {
 			} else if (leaf instanceof LineLeaf) {
 				final LineLeaf lineLeaf = (LineLeaf) leaf;
 
-				final String value = applyFeatures(currentLine,
-						lineLeaf.getFeatures());
+				final String value = apply(currentLine, lineLeaf.getFeatures());
 				record.put(leaf.getId(), value);
 
 				// we reached the end of the line and leave the loop
@@ -144,7 +185,7 @@ public class FlatFileIterator implements Iterator<Record> {
 		}
 		try {
 			getNextLine();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 		if (hasNext()) {
@@ -155,17 +196,15 @@ public class FlatFileIterator implements Iterator<Record> {
 	}
 
 	/**
-	 * Checks if the reader can return another {@link Record} (another line)
+	 * Checks if the reader can return another {@link Record} (another line).
 	 * 
 	 * @return true, if successful
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
 	 */
 	@Override
 	public boolean hasNext() {
 		try {
 			return nextLine != null || reader.ready();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -174,6 +213,8 @@ public class FlatFileIterator implements Iterator<Record> {
 	 * Gets the next line.
 	 * 
 	 * @return the next line
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	private String getNextLine() throws IOException {
 		currentLine = null;
@@ -181,15 +222,34 @@ public class FlatFileIterator implements Iterator<Record> {
 		return nextLine;
 	}
 
-	private String applyFeatures(String s, List<Feature> features) {
+	/**
+	 * Apply features.
+	 * 
+	 * @param s
+	 *            the s
+	 * @param features
+	 *            the features
+	 * @return the string
+	 */
+	private String apply(String s, final List<Feature> features) {
 
-		for (Feature feature : features) {
+		for (final Feature feature : features) {
 			s = feature.convert(s);
 		}
 
 		return s;
 	}
 
+	/**
+	 * Operation not supported.
+	 * 
+	 * @throws UnsupportedOperationException
+	 */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.Iterator#remove()
+	 */
 	@Override
 	public void remove() {
 		throw new UnsupportedOperationException();

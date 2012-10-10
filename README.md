@@ -1,6 +1,6 @@
 # README #
 
-**Flatlinr** supports parse simple flat file structures like CSV files and also really complex hierarchical data structures based on flat files.
+**Flatlinr** parses simple flat file structures like CSV files and also really complex hierarchical data structures based on flat files.
 
 	git clone git://github.com/platzhaltr/flatlinr.git
 	cd flatlinr

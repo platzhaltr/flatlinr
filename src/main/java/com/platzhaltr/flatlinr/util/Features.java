@@ -18,7 +18,7 @@ package com.platzhaltr.flatlinr.util;
 import com.platzhaltr.flatlinr.api.Feature;
 
 /**
- * Default Features.
+ * Default Features. A feature transforms the string of a single record entry.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
@@ -42,7 +42,7 @@ public class Features {
 	 *            the replacement
 	 * @return the feature
 	 */
-	public static Feature REPLACE(String pattern, String replacement) {
+	public static Feature REPLACE(final String pattern, final String replacement) {
 		return new ReplaceFeature(pattern, replacement);
 	}
 

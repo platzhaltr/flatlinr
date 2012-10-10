@@ -22,7 +22,7 @@ import com.platzhaltr.flatlinr.api.Feature;
 import com.platzhaltr.flatlinr.api.Leaf;
 
 /**
- * The Class DelimitedLeaf.
+ * A leaf of variable length delimited using a delimter.
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
@@ -41,26 +41,25 @@ public class DelimitedLeaf implements Leaf {
 	private final List<Feature> features;
 
 	/**
-	 * Instantiates a new delimited leaf with the <b>default delimiter</b>
-	 * <code>;</code>
+	 * Instantiates a new delimited leaf using default delimiter <code>;</code>
 	 * 
 	 * @param id
 	 *            the id
 	 */
-	public DelimitedLeaf(final String name) {
-		this(name, DEFAULT_DELIMITER);
+	public DelimitedLeaf(final String id) {
+		this(id, DEFAULT_DELIMITER);
 	}
 
 	/**
-	 * Instantiates a new delimited leaf.
+	 * Instantiates a new delimited leaf using default delimiter <code>;</code>
 	 * 
 	 * @param id
 	 *            the id
 	 * @param features
 	 *            the features
 	 */
-	public DelimitedLeaf(final String name, Feature... features) {
-		this(name, DEFAULT_DELIMITER, features);
+	public DelimitedLeaf(final String id, final Feature... features) {
+		this(id, DEFAULT_DELIMITER, features);
 	}
 
 	/**
@@ -71,35 +70,8 @@ public class DelimitedLeaf implements Leaf {
 	 * @param delimiter
 	 *            the delimiter
 	 */
-	public DelimitedLeaf(final String name, final char delimiter) {
-		this(name, delimiter + "");
-	}
-
-	/**
-	 * Instantiates a new delimited leaf.
-	 * 
-	 * @param id
-	 *            the id
-	 * @param delimiter
-	 *            the delimiter
-	 * @param features
-	 *            the features
-	 */
-	public DelimitedLeaf(final String name, final char delimiter,
-			Feature... features) {
-		this(name, delimiter + "", features);
-	}
-
-	/**
-	 * Instantiates a new delimited leaf.
-	 * 
-	 * @param id
-	 *            the id
-	 * @param delimiter
-	 *            the delimiter
-	 */
-	public DelimitedLeaf(final String name, final String delimiter) {
-		this(name, delimiter, new Feature[] {});
+	public DelimitedLeaf(final String id, final char delimiter) {
+		this(id, delimiter + "");
 	}
 
 	/**
@@ -112,9 +84,36 @@ public class DelimitedLeaf implements Leaf {
 	 * @param features
 	 *            the features
 	 */
-	public DelimitedLeaf(final String name, final String delimiter,
-			Feature... features) {
-		this.id = name;
+	public DelimitedLeaf(final String id, final char delimiter,
+			final Feature... features) {
+		this(id, delimiter + "", features);
+	}
+
+	/**
+	 * Instantiates a new delimited leaf.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param delimiter
+	 *            the delimiter
+	 */
+	public DelimitedLeaf(final String id, final String delimiter) {
+		this(id, delimiter, new Feature[] {});
+	}
+
+	/**
+	 * Instantiates a new delimited leaf.
+	 * 
+	 * @param id
+	 *            the id
+	 * @param delimiter
+	 *            the delimiter
+	 * @param features
+	 *            the features
+	 */
+	public DelimitedLeaf(final String id, final String delimiter,
+			final Feature... features) {
+		this.id = id;
 		this.delimiter = delimiter;
 		this.features = Arrays.asList(features);
 	}
@@ -160,29 +159,38 @@ public class DelimitedLeaf implements Leaf {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
-		DelimitedLeaf other = (DelimitedLeaf) obj;
+		}
+		final DelimitedLeaf other = (DelimitedLeaf) obj;
 		if (delimiter == null) {
-			if (other.delimiter != null)
+			if (other.delimiter != null) {
 				return false;
-		} else if (!delimiter.equals(other.delimiter))
+			}
+		} else if (!delimiter.equals(other.delimiter)) {
 			return false;
+		}
 		if (features == null) {
-			if (other.features != null)
+			if (other.features != null) {
 				return false;
-		} else if (!features.equals(other.features))
+			}
+		} else if (!features.equals(other.features)) {
 			return false;
+		}
 		if (id == null) {
-			if (other.id != null)
+			if (other.id != null) {
 				return false;
-		} else if (!id.equals(other.id))
+			}
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		return true;
 	}
 

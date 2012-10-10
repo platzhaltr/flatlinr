@@ -22,7 +22,7 @@ import com.platzhaltr.flatlinr.api.Feature;
 import com.platzhaltr.flatlinr.api.Leaf;
 
 /**
- * The Class LineLeaf.
+ * A leaf describing a complete line
  * 
  * @author Oliver Schrenk <oliver.schrenk@gmail.com>
  */
@@ -40,7 +40,7 @@ public class LineLeaf implements Leaf {
 	 * @param id
 	 *            the id
 	 */
-	public LineLeaf(String id) {
+	public LineLeaf(final String id) {
 		this(id, new Feature[] {});
 	}
 
@@ -52,7 +52,7 @@ public class LineLeaf implements Leaf {
 	 * @param features
 	 *            the features
 	 */
-	public LineLeaf(String id, Feature... features) {
+	public LineLeaf(final String id, final Feature... features) {
 		super();
 		this.id = id;
 		this.features = Arrays.asList(features);
@@ -98,24 +98,31 @@ public class LineLeaf implements Leaf {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
-		LineLeaf other = (LineLeaf) obj;
+		}
+		final LineLeaf other = (LineLeaf) obj;
 		if (features == null) {
-			if (other.features != null)
+			if (other.features != null) {
 				return false;
-		} else if (!features.equals(other.features))
+			}
+		} else if (!features.equals(other.features)) {
 			return false;
+		}
 		if (id == null) {
-			if (other.id != null)
+			if (other.id != null) {
 				return false;
-		} else if (!id.equals(other.id))
+			}
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		return true;
 	}
 
